@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CatalogAPI.Controllers
 {
+    [Produces("application/json")]
     [ApiController]
     [Route("[controller]")]
     public class CatalogController : ControllerBase
