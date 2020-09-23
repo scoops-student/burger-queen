@@ -33,24 +33,23 @@ namespace CatalogAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> GetAllCatalogItems()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CatalogItem>> GetCatalogItemById(long id)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<CatalogItem>> DeleteCatalogItemById(long id)
         {
             throw new NotImplementedException();
@@ -58,15 +57,14 @@ namespace CatalogAPI.Controllers
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> DeleteAllCatalogItems()
         {
             throw new NotImplementedException();
         }
 
         [HttpPatch("{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<CatalogItem>> UpdateCatalogItemById(long id)
         {
             throw new NotImplementedException();
@@ -82,24 +80,23 @@ namespace CatalogAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<ActionResult<IEnumerable<CatalogType>>> GetAllCatalogType()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CatalogType>> GetCatalogTypeById(long id)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<CatalogType>> DeleteCatalogTypeById(long id)
         {
             throw new NotImplementedException();
@@ -107,15 +104,14 @@ namespace CatalogAPI.Controllers
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CatalogType>>> DeleteAllCatalogTypes()
         {
             throw new NotImplementedException();
         }
 
         [HttpPatch("{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<CatalogType>> UpdateCatalogTypeById(long id)
         {
             throw new NotImplementedException();
