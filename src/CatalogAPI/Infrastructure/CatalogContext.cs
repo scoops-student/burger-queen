@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace CatalogAPI.Infrastructure
 {
     public class CatalogContext : DbContext
@@ -20,6 +21,5 @@ namespace CatalogAPI.Infrastructure
             modelBuilder.Entity<CatalogType>().ToTable("CatalogType");
             modelBuilder.Entity<CatalogItem>().ToTable("CatalogItem");
         }
-
     }
 }
