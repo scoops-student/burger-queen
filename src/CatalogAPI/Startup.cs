@@ -1,7 +1,8 @@
-using System;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CatalogAPI.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI
 {
@@ -26,6 +28,9 @@ namespace CatalogAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //Register CatalogContext as a service
+            services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
