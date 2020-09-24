@@ -8,10 +8,7 @@ using System.Threading.Tasks;
 namespace CatalogAPI.Infrastructure
 {
     public class CatalogContext : DbContext
-    {
-        public CatalogContext(DbContextOptions<CatalogContext> options) : base(options)
-        {
-        }
+    { 
 
         // Create tables for the database. Tables have the same name as the DbSet and they're plural
         public DbSet<CatalogItem> CatalogItems { get; set; }

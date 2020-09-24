@@ -30,7 +30,7 @@ namespace CatalogAPI
             services.AddControllers();
 
             //Register CatalogContext as a service
-            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
