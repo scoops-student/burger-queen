@@ -1,0 +1,14 @@
+﻿@inject NavigationManager navigationManager
+
+<MatNavMenu Multi="true" Class="app-sidebar">
+    <MatNavItem Href="@navigationManager.ToAbsoluteUri(" ").AbsoluteUri" NavLinkMatch="NavLinkMatch.All">
+        <MatIcon>home</MatIcon> <span class="miniHover">Home page</span>
+    </MatNavItem>
+
+    <MatNavItem Href="@navigationManager.ToAbsoluteUri("type/1").AbsoluteUri">
+        <MatIcon>list_alt</MatIcon> <span class="miniHover">Type 1</span>
+    </MatNavItem>
+    <MatNavItem Href="@navigationManager.ToAbsoluteUri("type/2").AbsoluteUri">
+        <MatIcon>list_alt</MatIcon> <span class="miniHover">Type 2</span>
+    </MatNavItem>
+</MatNavMenu>
