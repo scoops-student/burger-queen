@@ -33,30 +33,38 @@ namespace CatalogAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status302Found)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> GetAllCatalogItems()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status302Found)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> GetCatalogItemById(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CatalogItem>> PutCatalogItemById()
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> DeleteCatalogItemById(long id)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> DeleteAllCatalogItems()
         {
             throw new NotImplementedException();
@@ -80,30 +88,39 @@ namespace CatalogAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status302Found)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogType>>> GetAllCatalogType()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status302Found)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogType>> GetCatalogTypeById(long id)
         {
             throw new NotImplementedException();
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CatalogType>> PutCatalogTypeById()
+        {
+            throw new NotImplementedException();
+        }
+
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogType>> DeleteCatalogTypeById(long id)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogType>>> DeleteAllCatalogTypes()
         {
             throw new NotImplementedException();
@@ -116,5 +133,15 @@ namespace CatalogAPI.Controllers
         {
             throw new NotImplementedException();
         }
+
+        //CatalogItem aan de hand van het CataloType
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CatalogType>> GetCatalogItemByCatalogTypeId(long id)
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }
