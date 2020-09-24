@@ -17,40 +17,9 @@ namespace CatalogAPI
         public static void Main(string[] args)
         {
 
-            using (var db = new CatalogContext())
-            {
-                db.CatalogTypes.Add(new CatalogType { Type = "New Catalogtype" });
-                db.SaveChanges();
-
-                foreach (var catalogtype in db.CatalogTypes)
-                {
-                    Console.WriteLine(catalogtype.Type);
-                }
-            }
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-
             var host = CreateWebHostBuilder(args).Build();
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<CatalogContext>();
-                    //DbInitialize.Initialize(context);
-                    context.GetType().ToString();
-                }
-                catch (Exception ex)
-                {
-
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occured while seeding the database.");
-                }
-            }
             host.Run();
-
-            
         }
 
         public static IHostBuilder CreateWebHostBuilder(string[] args) =>
