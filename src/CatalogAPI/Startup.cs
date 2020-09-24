@@ -1,7 +1,8 @@
-using System;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CatalogAPI.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.IO;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CatalogAPI
 {
@@ -21,7 +24,7 @@ namespace CatalogAPI
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -33,7 +36,11 @@ namespace CatalogAPI
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
-        } 
+
+            //Register CatalogContext as a service
+            services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

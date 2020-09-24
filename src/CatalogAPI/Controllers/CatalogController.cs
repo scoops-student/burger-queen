@@ -16,11 +16,11 @@ namespace CatalogAPI.Controllers
     [Route("[controller]")]
     public class CatalogController : ControllerBase
     {
-        private readonly ILogger<CatalogController> _logger;
+        private readonly ILogger<CatalogController> logger;
 
         public CatalogController(ILogger<CatalogController> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         //CatalogTitem
