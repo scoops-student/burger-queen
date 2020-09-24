@@ -1,0 +1,76 @@
+﻿@inherits LayoutComponentBase
+
+<MatDrawerContainer Style="width: 100vw; height: 100vh;" Class="@bbDrawerClass">
+    <MatDrawer @bind-Opened="@_navMenuOpened">
+        <header class="drawer-header">
+            <div class="drawer-logo">
+                ADD LOGO
+            </div>
+        </header>
+        <CatalogTypeMenu />
+        <footer class="drawer-footer">
+            <MatTooltip Tooltip="Help">
+                <MatButton Icon="help" RefBack="@context" Link="https://github.com/enkodellc/blazorboilerplate"><span class="miniHover">Help & Support</span></MatButton>
+            </MatTooltip>
+        </footer>
+    </MatDrawer>
+
+    <MatDrawerContent>
+        <MatAppBarContainer>
+            <MatAppBar Fixed="true">
+                <MatAppBarRow>
+                    <MatAppBarSection>
+                        <MatAppBarTitle>
+                        </MatAppBarTitle>
+                        <div class="hidden-mdc-down">
+                            <MatTooltip Tooltip="Minify Navigation">
+                                <MatIconButton Class="navToggle" Icon="format_indent_decrease" ToggleIcon="format_indent_increase" OnClick="@((e) => NavMinify())" RefBack="@context"></MatIconButton>
+                            </MatTooltip>
+                        </div>
+                    </MatAppBarSection>
+                    <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                        <MatTooltip Tooltip="Github Repository">
+                            <MatIconButton Link="https://github.com/scoops-student/burger-queen" RefBack="@context"><i class="fa fa-github" aria-hidden="true"></i></MatIconButton>
+                        </MatTooltip>
+                    </MatAppBarSection>
+                </MatAppBarRow>
+            </MatAppBar>
+            <MatAppBarContent>
+                <section class="container-fluid">
+                    @Body
+                </section>
+            </MatAppBarContent>
+        </MatAppBarContainer>
+    </MatDrawerContent>
+</MatDrawerContainer>
+
+
+@code {
+    bool _navMenuOpened = true;
+    bool _navMinified = false;
+    public string bbDrawerClass = "";
+
+    void NavMinify()
+    {
+        _navMinified = !_navMinified;
+
+        if (!_navMenuOpened)
+        {
+            _navMinified = true;
+        }
+
+        if (_navMinified)
+        {
+            bbDrawerClass = "mini";
+            _navMenuOpened = true;
+        }
+        else if (_navMenuOpened)
+        {
+            bbDrawerClass = "full";
+        }
+
+        _navMenuOpened = true;
+        this.StateHasChanged();
+    }
+
+}
