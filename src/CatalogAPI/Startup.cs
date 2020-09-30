@@ -1,22 +1,21 @@
-using Microsoft.EntityFrameworkCore.SqlServer;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using CatalogAPI.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-//Toegevoegde naamruimten
-using System.Reflection;
-using System.IO;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace CatalogAPI
 {
@@ -35,12 +34,17 @@ namespace CatalogAPI
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                var xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlpath = Path.Combine(AppContext.BaseDirectory, xmlfile);
 
-            //Register CatalogContext as a service
+                c.IncludeXmlComments(xmlpath);
+            });
+
+            // Register CatalogContext as a service
             services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,7 +59,7 @@ namespace CatalogAPI
             app.UseStaticFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger(); 
+            app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
@@ -73,7 +77,5 @@ namespace CatalogAPI
                 endpoints.MapControllers();
             });
         }
-
-       
     }
 }
