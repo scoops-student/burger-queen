@@ -16,7 +16,7 @@ using System.Reflection;
 using System.IO;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CatalogAPI
 {
@@ -38,9 +38,9 @@ namespace CatalogAPI
             services.AddSwaggerGen();
 
             //Register CatalogContext as a service
-            services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
-        }
+            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,14 +55,14 @@ namespace CatalogAPI
             app.UseStaticFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger(); 
+            app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
     {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
 
             app.UseRouting();
 
@@ -72,8 +72,19 @@ namespace CatalogAPI
             {
                 endpoints.MapControllers();
             });
+
+            UpdateDatabes(app);
         }
 
-       
+        private static void UpdateDatabes(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<CatalogContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+        }
     }
 }
