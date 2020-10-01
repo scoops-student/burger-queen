@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "f398787e-fc35-4867-87b6-f57733083064",
+		"name": "Test scripts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Testing status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2a24839-0b18-4fe7-afaa-90ef6aa16b37",
+						"exec": [
+							"// 2 manieren om de status code te testen\r",
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Second Status code is 200\", () =>{\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"//Meerdere status codes\r",
+							"pm.test(\"Status code\",()=>{\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202])\r",
+							"});\r",
+							"\r",
+							"//Status code text\r",
+							"pm.test(\"Status code name has string\", ()=>{\r",
+							"pm.response.to.have.status(\"OK\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44393/swagger/v1/swagger.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44393",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing environment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "965c5486-4522-49db-93f1-8a8828481582",
+						"exec": [
+							"pm.test(\"Response property matches environment variable\", function() {\r",
+							"pm.expect(pm.response.json().name).to.eql(pm.environment.get(\"name\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check the active environment\", () => {\r",
+							"  pm.expect(pm.environment.name).to.eql(\"Production\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44393/swagger/v1/swagger.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44393",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing response times",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "367616ab-4e78-48f8-9cda-fc0cfd12ee31",
+						"exec": [
+							"pm.test(\"Response time is less than 200ms\",() => {\r",
+							"    pm.expect(pm.response.responseTime).to.below(200)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44393/swagger/v1/swagger.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44393",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing  headers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3c2d1504-b34c-4a92-91e8-2d260decf8da",
+						"exec": [
+							"//Check dat een header aanwezig is\r",
+							"pm.test(\"Content-Type header is present\", ()=>{\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"//Check dat een header een bepaaldee waarde heeft (!!! schrijffouten/ letters/cijfers tekort kunnen ervoor zorgen dat de test failed. !!!)\r",
+							"pm.test(\"Content-Type header is application/json\", () =>{\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json;charset=utf-8')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44393/swagger/v1/swagger.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44393",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing Cookies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "05dd15a3-24a8-4479-89ae-fa25f47db069",
+						"exec": [
+							"//Testen dat een cookie aanwezig is\r",
+							"pm.test(\"Is cookie JSESSIONID present?\", () =>{\r",
+							"    pm.expect(pm.cookies.has('JSESSIONID')).to.be.true;\r",
+							"});\r",
+							"\r",
+							"//Testen van een bepaalde cookie value\r",
+							"pm.test(\"Cookie isLoggeIn has value 1\",()=>{\r",
+							"    pm.expect(pm.cookies.get('isLoggedIn')).to.eql('1');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44393/swagger/v1/swagger.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44393",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Testing object is contained",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad492557-db3c-426b-8678-1a0e85637dba",
+						"exec": [
+							"pm.test(\"Object is contained\", () => {\r",
+							"const expectedObject = {\r",
+							"    \"openapi\": \"3.0.1\",\r",
+							"    \"info\" : {\"title\":\"CatalogAPI\",\"version\":\"1.0\"},\r",
+							"  };\r",
+							"  pm.expect(pm.response.json()).to.deep.include(expectedObject);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44393/swagger/v1/swagger.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44393",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
