@@ -43,7 +43,7 @@ namespace CatalogAPI
             });
 
             // Register CatalogContext as a service
-            services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
+            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +76,21 @@ namespace CatalogAPI
             {
                 endpoints.MapControllers();
             });
+
+            UpdateDatabase(app);
+        }
+
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<CatalogContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }
