@@ -20,11 +20,11 @@ namespace CatalogAPI.Infrastructure
 
             var catalogtypes = new CatalogType[]
             {
-                new CatalogType{ Type = "Portie frieten"},
-                new CatalogType{ Type = "Burgers"},
-                new CatalogType{ Type = "Menu's"},
-                new CatalogType{ Type = "Frisdrank"},
-                new CatalogType{ Type = "Dessert"},
+                new CatalogType { Type = "Portie frieten" },
+                new CatalogType { Type = "Burgers" },
+                new CatalogType { Type = "Menu's" },
+                new CatalogType { Type = "Frisdrank" },
+                new CatalogType { Type = "Dessert" },
             };
         }
     }

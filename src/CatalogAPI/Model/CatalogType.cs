@@ -14,6 +14,6 @@ namespace CatalogAPI.Model
         [Required]
         public string Type { get; set; }
 
-        public ICollection<CatalogItem> catalogitems {get; set;}
+        public ICollection<CatalogItem> catalogitems { get; set; }
     }
 }
