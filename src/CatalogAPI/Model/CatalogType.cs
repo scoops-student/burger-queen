@@ -11,9 +11,10 @@ namespace CatalogAPI.Model
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
+
         [Required]
         public string Type { get; set; }
 
-        public ICollection<CatalogItem> catalogitems {get; set;}
+        public ICollection<CatalogItem> Catalogitems { get; set; }
     }
 }

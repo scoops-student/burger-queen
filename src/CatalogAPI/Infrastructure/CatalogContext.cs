@@ -24,6 +24,8 @@ namespace CatalogAPI.Infrastructure
         {
             modelBuilder.Entity<CatalogType>().ToTable("CatalogType");
             modelBuilder.Entity<CatalogItem>().ToTable("CatalogItem");
+
+            modelBuilder.Entity<CatalogItem>().HasKey(c => new { c.CatalogTypeId });
         }
     }
 }

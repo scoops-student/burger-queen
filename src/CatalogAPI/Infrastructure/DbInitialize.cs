@@ -9,6 +9,7 @@ namespace CatalogAPI.Infrastructure
 {
     public static class DbInitialize
     {
+        
         public static void Initialize(CatalogContext context)
         {
             context.Database.EnsureCreated();
@@ -23,7 +24,7 @@ namespace CatalogAPI.Infrastructure
                 new CatalogType{ Type = "Portie frieten"},
                 new CatalogType{ Type = "Burgers"},
                 new CatalogType{ Type = "Menu's"},
-                new CatalogType{ Type = "Frisdrank"},
+                new CatalogType{ Type = "Koude drank"},
                 new CatalogType{ Type = "Dessert"},
             };
         }

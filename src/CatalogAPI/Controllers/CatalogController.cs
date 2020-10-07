@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using CatalogAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace CatalogAPI.Controllers
 {
@@ -16,6 +19,15 @@ namespace CatalogAPI.Controllers
     [Route("[controller]")]
     public class CatalogController : ControllerBase
     {
+        public IActionResult Index()
+        {
+            var webClient = new WebClient();
+            var json = webClient.DownloadString(@"C:\Users\ayoub\OneDrive\Bureau\Scoops\burger-queen\src\CatalogAPI\TestData.json");
+            var catalogdatas = JsonConvert.DeserializeObject<Catalogs>(json);
+            return View(catalogdatas);
+            throw new NotImplementedException();
+        }
+
         private readonly ILogger<CatalogController> logger;
 
         public CatalogController(ILogger<CatalogController> logger)
