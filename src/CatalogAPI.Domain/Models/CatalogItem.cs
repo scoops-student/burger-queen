@@ -1,5 +1,4 @@
-﻿
-namespace CatalogAPI.Domain.Models
+﻿namespace CatalogAPI.Domain.Models
 {
     public class CatalogItem
     {
@@ -16,6 +15,5 @@ namespace CatalogAPI.Domain.Models
         public int CatalogTypeId { get; set; }
 
         public CatalogType CatalogType { get; set; }
-
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using CatalogAPI.Domain.Interfaces;
 using CatalogAPI.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace CatalogAPI.Controllers
     public class CatalogController : ControllerBase
     {
         private readonly ILogger<CatalogController> logger;
+        private readonly ICatalogService catalogService;
 
-        public CatalogController(ILogger<CatalogController> logger)
+        public CatalogController(ILogger<CatalogController> logger, ICatalogService catalogService)
         {
             this.logger = logger;
+            this.catalogService = catalogService;
         }
 
         /// <summary>
@@ -31,7 +34,14 @@ namespace CatalogAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> CreateCatalogItem(CatalogItem item)
         {
-            throw new NotImplementedException();
+            if (this.ModelState.IsValid == false)
+            {
+                return this.BadRequest();
+            }
+
+            var newItem = await this.catalogService.CreateItemAsync(item).ConfigureAwait(false);
+
+            return this.CreatedAtAction("GetCatalogItemById", newItem.Id, newItem);
         }
 
         /// <summary>
@@ -41,7 +51,7 @@ namespace CatalogAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> GetAllCatalogItems()
         {
-            throw new NotImplementedException();
+            return this.Ok(await this.catalogService.GetAllItemsAsync().ConfigureAwait(false));
         }
 
         /// <summary>
@@ -50,9 +60,16 @@ namespace CatalogAPI.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogItem>> GetCatalogItemById(long id)
+        public async Task<ActionResult<CatalogItem>> GetCatalogItemById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return this.Ok(await this.catalogService.GetItemByIdAsync(id).ConfigureAwait(false));
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
