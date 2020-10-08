@@ -20,5 +20,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CatalogAPI.Domain\CatalogAPI.Domain.csproj" />
+    <ProjectReference Include="..\CatalogAPI.Infrastructure\CatalogAPI.Infrastructure.csproj" />
+  </ItemGroup>
+
 
 </Project>

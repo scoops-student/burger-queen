@@ -1,4 +1,4 @@
-﻿using CatalogAPI.Model;
+﻿using CatalogAPI.Domain.Models;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
