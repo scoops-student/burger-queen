@@ -15,7 +15,7 @@ namespace CatalogAPI.Tests
         public CatalogController_GetAllCatalogItems()
         {
             var loggerMock = new Mock<ILogger<CatalogController>>();
-            this._controller = new CatalogController(loggerMock.Object);
+            //this._controller = new CatalogController(loggerMock.Object);
         }
 
         [Fact]
