@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CatalogAPI.Domain.Interfaces;
 using CatalogAPI.Infrastructure;
+using CatalogAPI.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,8 +44,17 @@ namespace CatalogAPI
                 c.IncludeXmlComments(xmlpath);
             });
 
-            // Register CatalogContext as a service
-            services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
+            var useXml = false; // = Configuration.useXml
+
+            if (useXml == true)
+            {
+                services.AddTransient<ICatalogService, CatalogXmlService>();
+            }
+            else
+            {
+                services.AddTransient<ICatalogService, CatalogEntityFrameworkService>();
+                services.AddDbContext<CatalogContext>(/*options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))*/);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

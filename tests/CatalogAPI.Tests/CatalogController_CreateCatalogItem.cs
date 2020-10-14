@@ -1,5 +1,5 @@
 ﻿using CatalogAPI.Controllers;
-using CatalogAPI.Model;
+using CatalogAPI.Domain.Models;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
