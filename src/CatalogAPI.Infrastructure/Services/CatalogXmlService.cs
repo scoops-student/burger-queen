@@ -58,5 +58,29 @@ namespace CatalogAPI.Infrastructure.Services
             throw new System.NotImplementedException();
         }
 
+        public Task<CatalogItem> UpdateItem(CatalogItem item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteItemById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<CatalogType> UpdateType(CatalogType type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteTypeById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<CatalogItem>> GetCatalogItemsByCatalogTypeId(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
