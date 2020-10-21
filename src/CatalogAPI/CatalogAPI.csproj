@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <None Include="..\..\.editorconfig" Link=".editorconfig" />
@@ -24,6 +28,8 @@
     <ProjectReference Include="..\CatalogAPI.Domain\CatalogAPI.Domain.csproj" />
     <ProjectReference Include="..\CatalogAPI.Infrastructure\CatalogAPI.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 
 </Project>
