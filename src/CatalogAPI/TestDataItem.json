@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "Queen Fish",
+    "Description": "krokant gepaneerde vis, smeuïge saus en knapperige sla",
+    "Price": 6.0,
+    "CatalogTypeId": 1
+  },
+  {
+    "Name": "Ultimate Chicken Queen",
+    "Description": "Een XXl-chickenburger",
+    "Price": 5.0,
+    "CatalogTypeId": 1
+  },
+  {
+    "Name": "Queen surprisebox",
+    "Description": "Chicken Nuggets, Chicken Wings en Chicken Strips",
+    "Price": 8.0,
+    "CatalogTypeId": 1
+  },
+  {
+    "Name": "Chaudfontaine",
+    "Description": "Fris Bronwater uit een flesje",
+    "Price": 2.0,
+    "CatalogTypeId": 2
+  },
+  {
+    "Name": "Coca Cola",
+    "Description": "Is verkrijgbaar met of zonder ijs",
+    "Price": 2.0,
+    "CatalogTypeId": 2
+  },
+  {
+    "Name": "Ice-Tea",
+    "Description": "Is verkrijgbaar met of zonder ijs",
+    "Price": 2.0,
+    "CatalogTypeId": 2
+  },
+  {
+    "Name": "Queen Shake",
+    "Description": "Verkrijgbaar in 3 heerlijke smaken : Aarbei, Chocolade of Vanille",
+    "Price": 3.5,
+    "CatalogTypeId": 3
+  },
+  {
+    "Name": "Queen Flursion",
+    "Description": "Verkrijgbaar met M&M's, Speculoos of Oreo en een sausje naar keuze",
+    "Price": 3.0,
+    "CatalogTypeId": 3
+  }
+]
