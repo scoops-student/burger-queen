@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using CatalogAPI.Domain.Interfaces;
 using CatalogAPI.Domain.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 
 namespace CatalogAPI.Controllers
 {
@@ -34,14 +37,28 @@ namespace CatalogAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> CreateCatalogItem(CatalogItem item)
         {
-            if (this.ModelState.IsValid == false)
+            try
+            {
+                if (item == null)
+                {
+                    // this.logger.LogError("Item object sent from client is null");
+                    return this.BadRequest("item object is null");
+                }
+
+                if (this.ModelState.IsValid == false)
+                {
+                    // this.logger.LogError("Invalid item object sent from client");
+                    return this.BadRequest("Invalid model object");
+                }
+
+                var newItem = await this.catalogService.CreateItemAsync(item).ConfigureAwait(false);
+
+                return this.CreatedAtAction("GetCatalogItemById", newItem.Id, newItem);
+            }
+            catch (ArgumentException)
             {
                 return this.BadRequest();
             }
-
-            var newItem = await this.catalogService.CreateItemAsync(item).ConfigureAwait(false);
-
-            return this.CreatedAtAction("GetCatalogItemById", newItem.Id, newItem);
         }
 
         /// <summary>
@@ -64,7 +81,14 @@ namespace CatalogAPI.Controllers
         {
             try
             {
-                return this.Ok(await this.catalogService.GetItemByIdAsync(id).ConfigureAwait(false));
+                var getItem = await this.catalogService.GetItemByIdAsync(id).ConfigureAwait(false);
+                if (getItem == null)
+                {
+                    // this.logger.LogError("");
+                    return this.BadRequest();
+                }
+
+                return this.Ok(getItem);
             }
             catch (ArgumentException)
             {
@@ -78,9 +102,28 @@ namespace CatalogAPI.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogItem>> UpdateCatalogItem(CatalogItem item)
+        public async Task<ActionResult<CatalogItem>> UpdateCatalogItem(int id, CatalogItem item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (id != item.Id)
+                {
+                    return this.BadRequest();
+                }
+
+                var updateItem = await this.catalogService.GetItemByIdAsync(id).ConfigureAwait(false);
+
+                if (updateItem == null)
+                {
+                    return this.BadRequest();
+                }
+
+                return this.Ok(updateItem);
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
@@ -89,9 +132,23 @@ namespace CatalogAPI.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogItem>> DeleteCatalogItemById(long id)
+        public async Task<ActionResult<CatalogItem>> DeleteCatalogItemById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleteItem = await this.catalogService.GetItemByIdAsync(id).ConfigureAwait(false);
+                if (deleteItem == null)
+                {
+                    // this.logger.LogError($"item whit id {id}, hasn't been found in the database");
+                    return this.BadRequest();
+                }
+
+                return this.Ok(deleteItem);
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
@@ -100,9 +157,29 @@ namespace CatalogAPI.Controllers
         [HttpPost("type")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogType>> CreateCatalogType(CatalogType catalogtype)
+        public async Task<ActionResult<CatalogType>> CreateCatalogType(CatalogType type)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (type == null)
+                {
+                    // this.logger.LogError("Type object sent from client is null");
+                    return this.BadRequest();
+                }
+
+                if (this.ModelState.IsValid == false)
+                {
+                    // this.logger.LogError("Invalid type object sent from client");
+                    return this.BadRequest();
+                }
+
+                var newItem = await this.catalogService.CreateTypeAsync(type).ConfigureAwait(false);
+                return this.CreatedAtAction("GetCatalogTypeById", newItem.Id, newItem);
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
@@ -112,7 +189,7 @@ namespace CatalogAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogType>>> GetAllCatalogTypes()
         {
-            throw new NotImplementedException();
+            return this.Ok(await this.catalogService.GetAllTypeAsync().ConfigureAwait(false));
         }
 
         /// <summary>
@@ -121,9 +198,23 @@ namespace CatalogAPI.Controllers
         [HttpGet("type/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogType>> GetCatalogTypeById(long id)
+        public async Task<ActionResult<CatalogType>> GetCatalogTypeById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var getType = await this.catalogService.GetTypeByIdAsync(id).ConfigureAwait(false);
+                if (getType == null)
+                {
+                    // this.logger.LogError("");
+                    return this.BadRequest();
+                }
+
+                return this.Ok(getType);
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
@@ -132,9 +223,28 @@ namespace CatalogAPI.Controllers
         [HttpPut("type")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogType>> UpdateCatalogType(CatalogType type)
+        public async Task<ActionResult<CatalogType>> UpdateCatalogType(int id, CatalogType type)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (id != type.Id)
+                {
+                    return this.BadRequest();
+                }
+
+                var updateType = await this.catalogService.GetTypeByIdAsync(id).ConfigureAwait(false);
+
+                if (updateType == null)
+                {
+                    return this.BadRequest();
+                }
+
+                return this.Ok(updateType);
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
@@ -143,9 +253,28 @@ namespace CatalogAPI.Controllers
         [HttpDelete("type/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CatalogType>> DeleteCatalogTypeById(long id)
+        public async Task<ActionResult<CatalogType>> DeleteCatalogTypeById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (id == null)
+                {
+                    return this.BadRequest();
+                }
+
+                var deleteType = await this.catalogService.GetTypeByIdAsync(id).ConfigureAwait(false);
+                if (deleteType == null)
+                {
+                    // this.logger.LogError("");
+                    return this.BadRequest();
+                }
+
+                return this.Ok(deleteType);
+            }
+            catch (ArgumentException)
+            {
+                return this.BadRequest();
+            }
         }
 
         /// <summary>
@@ -154,7 +283,7 @@ namespace CatalogAPI.Controllers
         [HttpGet("by-type/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<CatalogItem>>> GetCatalogItemsByCatalogTypeId(long id)
+        public async Task<ActionResult<IEnumerable<CatalogItem>>> GetCatalogItemsByCatalogTypeId(int id)
         {
             throw new NotImplementedException();
         }

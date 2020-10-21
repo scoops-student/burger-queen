@@ -1,9 +1,6 @@
-﻿using CatalogAPI.Domain.Models;
+﻿using System.Linq;
+using CatalogAPI.Domain.Models;
 using Microsoft.EntityFrameworkCore.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CatalogAPI.Infrastructure
 {
@@ -20,11 +17,11 @@ namespace CatalogAPI.Infrastructure
 
             var catalogtypes = new CatalogType[]
             {
-                new CatalogType{ Type = "Portie frieten"},
-                new CatalogType{ Type = "Burgers"},
-                new CatalogType{ Type = "Menu's"},
-                new CatalogType{ Type = "Frisdrank"},
-                new CatalogType{ Type = "Dessert"},
+                new CatalogType { Type = "Portie frieten" },
+                new CatalogType { Type = "Burgers" },
+                new CatalogType { Type = "Menu's" },
+                new CatalogType { Type = "Frisdrank" },
+                new CatalogType { Type = "Dessert" },
             };
         }
     }
