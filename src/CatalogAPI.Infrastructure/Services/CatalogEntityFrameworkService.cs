@@ -30,11 +30,12 @@ namespace CatalogAPI.Infrastructure.Services
         public async Task<CatalogItem> DeleteItemById(CatalogItem item, int id)
         {
             var deleteItem = await this.catalogContext.CatalogItems.FirstOrDefaultAsync(di => di.Id == id);
-            if (deleteItem != null)
+            item = deleteItem;
+            if (item != null)
             {
-                this.catalogContext.CatalogItems.Remove(deleteItem);
-                await this.catalogContext.SaveChangesAsync();
-                return deleteItem;
+                this.catalogContext.CatalogItems.Remove(item);
+                await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+                return item;
             }
 
             return null;
@@ -62,14 +63,14 @@ namespace CatalogAPI.Infrastructure.Services
             var updateItem = await this.catalogContext.CatalogItems.FirstOrDefaultAsync(ui => ui.Id == item.Id);
             if (updateItem != null)
             {
-                updateItem.Name = item.Name;
-                updateItem.Description = item.Description;
-                updateItem.Price = item.Price;
-                updateItem.PictureUri = item.PictureUri;
-                updateItem.CatalogTypeId = item.CatalogTypeId;
-                updateItem.CatalogType = item.CatalogType;
-                await this.catalogContext.SaveChangesAsync();
-                return updateItem;
+                item.Name = updateItem.Name;
+                item.Description = updateItem.Description;
+                item.Price = updateItem.Price;
+                item.PictureUri = updateItem.PictureUri;
+                item.CatalogTypeId = updateItem.CatalogTypeId;
+                item.CatalogType = updateItem.CatalogType;
+                await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+                return item;
             }
 
             return null;
@@ -106,8 +107,8 @@ namespace CatalogAPI.Infrastructure.Services
                 updateType.Id = type.Id;
                 updateType.Type = type.Type;
 
-                await this.catalogContext.SaveChangesAsync();
-                return updateType;
+                await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+                return type;
             }
 
             return null;
@@ -118,9 +119,10 @@ namespace CatalogAPI.Infrastructure.Services
             var deleteType = await this.catalogContext.CatalogTypes.FirstOrDefaultAsync(dt => dt.Id == id);
             if (deleteType != null)
             {
-                this.catalogContext.CatalogTypes.Remove(deleteType);
-                await this.catalogContext.SaveChangesAsync();
-                return deleteType;
+                type = deleteType;
+                this.catalogContext.CatalogTypes.Remove(type);
+                await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+                return type;
             }
 
             return null;
