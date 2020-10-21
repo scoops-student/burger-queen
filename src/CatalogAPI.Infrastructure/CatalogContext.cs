@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CatalogAPI.Domain.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Infrastructure
@@ -13,7 +14,6 @@ namespace CatalogAPI.Infrastructure
             : base(options)
         {
         }
-
         // Create tables for the database. Tables have the same name as the DbSet and they're plural
         public DbSet<CatalogItem> CatalogItems { get; set; }
 
