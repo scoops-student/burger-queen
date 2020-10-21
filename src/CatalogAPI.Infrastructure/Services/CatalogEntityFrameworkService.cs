@@ -63,14 +63,22 @@ namespace CatalogAPI.Infrastructure.Services
             var updateItem = await this.catalogContext.CatalogItems.FirstOrDefaultAsync(ui => ui.Id == item.Id);
             if (updateItem != null)
             {
-                item.Name = updateItem.Name;
-                item.Description = updateItem.Description;
-                item.Price = updateItem.Price;
-                item.PictureUri = updateItem.PictureUri;
-                item.CatalogTypeId = updateItem.CatalogTypeId;
-                item.CatalogType = updateItem.CatalogType;
+                updateItem.Name = item.Name;
+                this.catalogContext.CatalogItems.Update(updateItem);
+
+                updateItem.Description = item.Description;
+                this.catalogContext.CatalogItems.Update(updateItem);
+
+                updateItem.Price = item.Price;
+                this.catalogContext.CatalogItems.Update(updateItem);
+
+                updateItem.PictureUri = item.PictureUri;
+                this.catalogContext.CatalogItems.Update(updateItem);
+ 
+                updateItem.CatalogTypeId = item.CatalogTypeId;
+                this.catalogContext.CatalogItems.Update(updateItem);
                 await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
-                return item;
+                return updateItem;
             }
 
             return null;
