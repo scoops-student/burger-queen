@@ -12,9 +12,9 @@ namespace CatalogAPI.Domain.Interfaces
 
         Task<CatalogItem> GetItemByIdAsync(int id);
 
-        Task<CatalogItem> UpdateItem(CatalogItem item, int id);
+        Task<CatalogItem> UpdateItem(CatalogItem item);
 
-        Task<CatalogItem> DeleteItemById(CatalogItem item, int id);
+        Task DeleteItemById(int id);
 
         Task<CatalogType> CreateTypeAsync(CatalogType type);
 
@@ -22,8 +22,10 @@ namespace CatalogAPI.Domain.Interfaces
 
         Task<CatalogType> GetTypeByIdAsync(int id);
 
-        Task<CatalogType> UpdateType(CatalogType type, int id);
+        Task<CatalogType> UpdateType(CatalogType type);
 
-        Task<CatalogType> DeleteTypeById(CatalogType type, int id);
+        Task DeleteTypeById( int id);
+
+        Task<IEnumerable<CatalogItem>> GetCatalogItemsByCatalogTypeId(int id);
     }
 }

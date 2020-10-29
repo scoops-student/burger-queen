@@ -27,17 +27,19 @@ namespace CatalogAPI.Infrastructure.Services
             return item;
         }
 
-        public async Task<CatalogItem> DeleteItemById(CatalogItem item, int id)
+        public async Task DeleteItemById(int id)
         {
             var deleteItem = await this.catalogContext.CatalogItems.FirstOrDefaultAsync(di => di.Id == id);
-            if (deleteItem != null)
+
+            if (deleteItem == null)
             {
-                this.catalogContext.CatalogItems.Remove(deleteItem);
-                await this.catalogContext.SaveChangesAsync();
-                return deleteItem;
+                throw new ArgumentException();
             }
 
-            return null;
+            this.catalogContext.CatalogItems.Remove(deleteItem);
+            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+
+            return;
         }
 
         public Task<IEnumerable<CatalogItem>> GetAllItemsAsync()
@@ -57,22 +59,24 @@ namespace CatalogAPI.Infrastructure.Services
             return Task.FromResult<CatalogItem>(item);
         }
 
-        public async Task<CatalogItem> UpdateItem(CatalogItem item, int id)
+        public async Task<CatalogItem> UpdateItem(CatalogItem item)
         {
             var updateItem = await this.catalogContext.CatalogItems.FirstOrDefaultAsync(ui => ui.Id == item.Id);
-            if (updateItem != null)
+
+            if (updateItem == null)
             {
-                updateItem.Name = item.Name;
-                updateItem.Description = item.Description;
-                updateItem.Price = item.Price;
-                updateItem.PictureUri = item.PictureUri;
-                updateItem.CatalogTypeId = item.CatalogTypeId;
-                updateItem.CatalogType = item.CatalogType;
-                await this.catalogContext.SaveChangesAsync();
-                return updateItem;
+                throw new ArgumentException();
             }
 
-            return null;
+            updateItem.Name = item.Name;
+            updateItem.Description = item.Description;
+            updateItem.Price = item.Price;
+            updateItem.PictureUri = item.PictureUri;
+            updateItem.CatalogTypeId = item.CatalogTypeId;
+
+            this.catalogContext.CatalogItems.Update(updateItem);
+            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            return updateItem;
         }
 
         public async Task<CatalogType> CreateTypeAsync(CatalogType type)
@@ -98,32 +102,48 @@ namespace CatalogAPI.Infrastructure.Services
             return Task.FromResult<CatalogType>(type);
         }
 
-        public async Task<CatalogType> UpdateType(CatalogType type, int id)
+        public async Task<CatalogType> UpdateType(CatalogType type)
         {
             var updateType = await this.catalogContext.CatalogTypes.FirstOrDefaultAsync(ut => ut.Id == type.Id);
-            if (updateType != null)
+            if ( updateType == null)
             {
-                updateType.Id = type.Id;
-                updateType.Type = type.Type;
-
-                await this.catalogContext.SaveChangesAsync();
-                return updateType;
+                throw new ArgumentException();
             }
 
-            return null;
+            updateType.Id = type.Id;
+            updateType.Type = type.Type;
+
+            this.catalogContext.CatalogTypes.Update(updateType);
+            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            return type;
         }
 
-        public async Task<CatalogType> DeleteTypeById(CatalogType type, int id)
+        public async Task DeleteTypeById(int id)
         {
             var deleteType = await this.catalogContext.CatalogTypes.FirstOrDefaultAsync(dt => dt.Id == id);
-            if (deleteType != null)
+
+            if (deleteType == null)
             {
-                this.catalogContext.CatalogTypes.Remove(deleteType);
-                await this.catalogContext.SaveChangesAsync();
-                return deleteType;
+                throw new ArgumentException();
             }
 
-            return null;
+            this.catalogContext.CatalogTypes.Remove(deleteType);
+            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+
+            return;
+        }
+
+        public async Task<IEnumerable<CatalogItem>> GetCatalogItemsByCatalogTypeId(int id)
+        {
+            var catalogType = this.catalogContext.CatalogTypes.Where(x => x.Id == id).FirstOrDefault();
+            if (catalogType == null)
+            {
+                throw new ArgumentException();
+            }
+
+            var items = await this.catalogContext.CatalogItems.Where(x => x.CatalogTypeId == catalogType.Id).ToListAsync();
+
+            return items;
         }
     }
 }
