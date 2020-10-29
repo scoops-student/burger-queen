@@ -1,7 +1,19 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<h1>Welcome to Burger Queen</h1>
 
-Welcome to your new app.
+<h3>Type</h3>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+<div>
+    <ul> @type.Type 
+        <li for="type">@type.Type</li>
+    </ul>
+</div>
+
+@code {
+    CatalogAPI.Domain.Models.CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
+
+    CatalogAPI.Domain.Models.CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
+}
+

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdminUI.Data;
 using CatalogAPI.Domain.Interfaces;
+using CatalogAPI.Domain.Models;
 using CatalogAPI.Infrastructure;
 using CatalogAPI.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
@@ -48,7 +49,6 @@ namespace AdminUI
             else
             {
                 app.UseExceptionHandler("/Error");
-
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
