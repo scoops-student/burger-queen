@@ -1,4 +1,5 @@
-﻿namespace CatalogAPI.Domain.Models
+﻿
+namespace CatalogAPI.Domain.Models
 {
     public class CatalogItem
     {

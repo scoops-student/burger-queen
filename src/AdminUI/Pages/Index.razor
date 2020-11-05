@@ -1,19 +1,64 @@
 ﻿@page "/"
 
+@using CatalogAPI.Domain.Models
+
+@inject NavigationManager NavigationManager
+@inject CatalogAPI.Domain.Interfaces.ICatalogService _CatalogService
+
 <h1>Welcome to Burger Queen</h1>
 
 <h3>Type</h3>
+@foreach (var type in catalogTypes)
+{
+    <div>
+        <ul>
+            <h3>@type.Type</h3>
+            <br />
+            @foreach (var item in catalogItems)
+            {
+                @if (type.Id == item.CatalogTypeId)
+                {
+                    <li>
+                        Name : @item.Name <br />
+                        Description : @item.Description <br />
+                        Price : @item.Price <br />
+                        <button type="submit" class="btn btn-info" @onclick="UpdateItem">Update</button>
+                        <button type="submit" class="btn btn-primary" @onclick="DeleteItem">Delete</button>
+                    </li>
+                }
+            }
+            <br />
+        </ul>
+    </div>
+}
 
 
-<div>
-    <ul> @type.Type 
-        <li for="type">@type.Type</li>
-    </ul>
-</div>
+
+
 
 @code {
-    CatalogAPI.Domain.Models.CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
+    CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
+    CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
 
-    CatalogAPI.Domain.Models.CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
+    private IEnumerable<CatalogType> catalogTypes;
+    private IEnumerable<CatalogItem> catalogItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        catalogTypes = await _CatalogService.GetAllTypeAsync();
+        catalogItems = await _CatalogService.GetAllItemsAsync();
+    }
+
+    private void UpdateItem()
+    {
+        NavigationManager.NavigateTo("/item");
+    }
+
+    private async Task DeleteItem()
+    {
+        await _CatalogService.DeleteItemById(item.Id);
+        NavigationManager.NavigateTo("");
+    }
+
 }
 

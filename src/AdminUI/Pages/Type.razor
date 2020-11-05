@@ -1,5 +1,5 @@
 ﻿@page "/type"
-@*@inject CatalogAPI.Domain.Interfaces.ICatalogService CatalogService*@
+@inject CatalogAPI.Domain.Interfaces.ICatalogService CatalogService
 @inject NavigationManager NavigationManager
 
 <h3>Type</h3>
@@ -16,12 +16,12 @@
 
 
 @code {
-    CatalogAPI.Domain.Models.CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
+    private CatalogAPI.Domain.Models.CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
 
-    void HandleRegisrtion()
+    private void HandleRegisrtion()
     {
-        Console.WriteLine($"{type.Type}");
-       // NavigationManager.NavigateTo("");
+        //Console.WriteLine($"{type.Type}");
+        NavigationManager.NavigateTo("");
     }
 }
 

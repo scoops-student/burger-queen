@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AdminUI.Data;
+using AdminUI.Pages;
 using CatalogAPI.Domain.Interfaces;
 using CatalogAPI.Domain.Models;
 using CatalogAPI.Infrastructure;
@@ -33,7 +33,6 @@ namespace AdminUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
 
             services.AddTransient<ICatalogService, CatalogEntityFrameworkService>();
             services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
