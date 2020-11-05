@@ -49,16 +49,16 @@
         catalogItems = await _CatalogService.GetAllItemsAsync();
     }
 
-    private void UpdateItem()
-    {
-        NavigationManager.NavigateTo("/item");
-    }
+    //private void UpdateItem()
+    //{
+    //    NavigationManager.NavigateTo("/item");
+    //}
 
-    private async Task DeleteItem()
-    {
-        await _CatalogService.DeleteItemById(item.Id);
-        NavigationManager.NavigateTo("");
-    }
+    //private async Task DeleteItem()
+    //{
+    //    await _CatalogService.DeleteItemById(item.Id);
+    //    NavigationManager.NavigateTo("");
+    //}
 
 }
 
