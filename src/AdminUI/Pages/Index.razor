@@ -41,8 +41,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        catalogTypes = await _CatalogService.GetAllTypeAsync();
-        catalogItems = await _CatalogService.GetAllItemsAsync();
+        catalogTypes = await CatalogService.GetAllTypeAsync();
+        catalogItems = await CatalogService.GetAllItemsAsync();
     }
       
     private async Task UpdateType()
@@ -56,16 +56,16 @@
         //await CatalogService.DeleteTypeById();
     }
       
-    //private void UpdateItem()
-    //{
-    //    NavigationManager.NavigateTo("/item");
-    //}
+    private void UpdateItem()
+    {
+        NavigationManager.NavigateTo("/item");
+    }
 
-    //private async Task DeleteItem()
-    //{
-    //    await _CatalogService.DeleteItemById(item.Id);
-    //    NavigationManager.NavigateTo("");
-    //}
+    private async Task DeleteItem()
+    {
+        await CatalogService.DeleteItemById(item.Id);
+        NavigationManager.NavigateTo("");
+    }
 
 
 
