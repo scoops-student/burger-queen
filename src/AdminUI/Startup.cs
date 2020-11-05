@@ -35,7 +35,6 @@ namespace AdminUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
 
             services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Trace));
 

@@ -1,9 +1,15 @@
 ﻿@page "/item"
 
+@using CatalogAPI.Domain.Models
+
+@inject CatalogAPI.Domain.Interfaces.ICatalogService _CatalogService
 @inject NavigationManager NavigationManager
 
 <h3>Item</h3>
-<EditForm Model="@item" OnValidSubmit="HandleRegistration">
+<EditForm Model="@item" OnValidSubmit="HandleRegisrtion" OnInvalidSubmit="UpdateItem">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+  
     <div class="form-group">
         <label for="productName">Product Name</label>
         <InputText id="productName" @bind-Value="item.Name" class="form-control" />
@@ -19,19 +25,28 @@
         <InputNumber id="price" @bind-Value="item.Price" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <div class="form-group">
+        <label for="catalogTypeId">Type id</label>
+        <InputNumber id="catalogTypeId" @bind-Value="item.CatalogTypeId" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" @onclick="HandleRegisrtion">Create</button>
+    <button type="submit" class="btn btn-primary" @onclick="UpdateItem">Update</button>
+
 </EditForm>
 
-
 @code {
+    private CatalogItem item = new CatalogItem();
 
-    private CatalogAPI.Domain.Models.CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
-
-    private void HandleRegistration()
+    private async Task HandleRegisrtion()
     {
-        Console.WriteLine($"{item.Name}");
-
+        await _CatalogService.CreateItemAsync(item);
         NavigationManager.NavigateTo("");
     }
 
+    //private async Task UpdateItem()
+    //{
+    //    await _CatalogService.UpdateItem(item);
+    //    NavigationManager.NavigateTo("");
+    //}
 }

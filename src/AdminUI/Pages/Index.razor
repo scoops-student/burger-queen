@@ -14,30 +14,37 @@
             <button class="btn btn-info" @onclick="UpdateType">Update</button>
             <br />
             <br />
-
             @foreach (var item in catalogItems)
             {
-                @if (@type.Id == item.CatalogTypeId)
+                @if (type.Id == item.CatalogTypeId)
                 {
-                    <li for="type">Name: @item.Name <br /> Description: @item.Description <br /> Price: €@item.Price <br /> <button class="btn btn-info"> Delete</button> <button class="btn btn-info">Update</button> </li>
-                    <br />
+                    <li>
+                        Name : @item.Name <br />
+                        Description : @item.Description <br />
+                        Price : @item.Price <br />
+                        <button type="submit" class="btn btn-info" @onclick="UpdateItem">Update</button>
+                        <button type="submit" class="btn btn-primary" @onclick="DeleteItem">Delete</button>
+                    </li>
                 }
             }
+            <br />
         </ul>
     </div>
 }
 
 @code {
+    CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
+    CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
+
     private IEnumerable<CatalogType> catalogTypes;
     private IEnumerable<CatalogItem> catalogItems;
-    private CatalogType catalogType;
 
     protected override async Task OnInitializedAsync()
     {
-        catalogTypes = await CatalogService.GetAllTypeAsync();
-        catalogItems = await CatalogService.GetAllItemsAsync();
+        catalogTypes = await _CatalogService.GetAllTypeAsync();
+        catalogItems = await _CatalogService.GetAllItemsAsync();
     }
-
+      
     private async Task UpdateType()
     {
         //await CatalogService.UpdateType();
@@ -48,5 +55,19 @@
     {
         //await CatalogService.DeleteTypeById();
     }
+      
+    //private void UpdateItem()
+    //{
+    //    NavigationManager.NavigateTo("/item");
+    //}
+
+    //private async Task DeleteItem()
+    //{
+    //    await _CatalogService.DeleteItemById(item.Id);
+    //    NavigationManager.NavigateTo("");
+    //}
+
+
+
 }
 
