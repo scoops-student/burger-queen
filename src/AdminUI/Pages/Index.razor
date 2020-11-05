@@ -1,18 +1,18 @@
 ﻿@page "/"
-
 @using CatalogAPI.Domain.Models
-
+@inject CatalogAPI.Domain.Interfaces.ICatalogService CatalogService
 @inject NavigationManager NavigationManager
-@inject CatalogAPI.Domain.Interfaces.ICatalogService _CatalogService
 
 <h1>Welcome to Burger Queen</h1>
 
-<h3>Type</h3>
 @foreach (var type in catalogTypes)
 {
     <div>
         <ul>
             <h3>@type.Type</h3>
+            <button class="btn btn-info" @onclick="DeleteType"> Delete</button>
+            <button class="btn btn-info" @onclick="UpdateType">Update</button>
+            <br />
             <br />
             @foreach (var item in catalogItems)
             {
@@ -32,10 +32,6 @@
     </div>
 }
 
-
-
-
-
 @code {
     CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
     CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
@@ -48,7 +44,18 @@
         catalogTypes = await _CatalogService.GetAllTypeAsync();
         catalogItems = await _CatalogService.GetAllItemsAsync();
     }
+      
+    private async Task UpdateType()
+    {
+        //await CatalogService.UpdateType();
+        NavigationManager.NavigateTo("/type");
+    }
 
+    private async Task DeleteType()
+    {
+        //await CatalogService.DeleteTypeById();
+    }
+      
     //private void UpdateItem()
     //{
     //    NavigationManager.NavigateTo("/item");
@@ -59,6 +66,8 @@
     //    await _CatalogService.DeleteItemById(item.Id);
     //    NavigationManager.NavigateTo("");
     //}
+
+
 
 }
 

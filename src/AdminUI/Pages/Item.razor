@@ -9,6 +9,7 @@
 <EditForm Model="@item" OnValidSubmit="HandleRegisrtion" OnInvalidSubmit="UpdateItem">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
+  
     <div class="form-group">
         <label for="productName">Product Name</label>
         <InputText id="productName" @bind-Value="item.Name" class="form-control" />
@@ -31,11 +32,10 @@
 
     <button type="submit" class="btn btn-primary" @onclick="HandleRegisrtion">Create</button>
     <button type="submit" class="btn btn-primary" @onclick="UpdateItem">Update</button>
+
 </EditForm>
 
-
 @code {
-
     private CatalogItem item = new CatalogItem();
 
     private async Task HandleRegisrtion()
@@ -48,5 +48,5 @@
     //{
     //    await _CatalogService.UpdateItem(item);
     //    NavigationManager.NavigateTo("");
-}
+    //}
 }

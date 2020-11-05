@@ -1,27 +1,26 @@
 ﻿@page "/type"
+
 @inject CatalogAPI.Domain.Interfaces.ICatalogService CatalogService
 @inject NavigationManager NavigationManager
 
 <h3>Type</h3>
+
 <EditForm Model="@type" OnValidSubmit="HandleRegisrtion">
-    <DataAnnotationsValidator />
+
     <div class="form-group">
         <label for="type">Menu Naam</label>
         <InputText id="type" @bind-Value="type.Type" class="form-control" />
     </div>
-
-    <button type="submit" class="btn btn-primary">Opslaan</button>
-    <ValidationSummary />
+  
+    <button type="submit" class="btn btn-primary" >Submit</button>
 </EditForm>
 
-
 @code {
-    private CatalogAPI.Domain.Models.CatalogType type = new CatalogAPI.Domain.Models.CatalogType();
+    private CatalogType type = new CatalogType();
 
-    private void HandleRegisrtion()
+    private async Task HandleRegistration()
     {
-        //Console.WriteLine($"{type.Type}");
+        await CatalogService.CreateTypeAsync(type);
         NavigationManager.NavigateTo("");
     }
 }
-
