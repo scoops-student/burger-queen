@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AdminUI.Data;
+using Blazor.Extensions.Logging;
 using CatalogAPI.Domain.Interfaces;
 using CatalogAPI.Domain.Models;
 using CatalogAPI.Infrastructure;
@@ -15,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace AdminUI
 {
@@ -34,6 +36,8 @@ namespace AdminUI
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Trace));
 
             services.AddTransient<ICatalogService, CatalogEntityFrameworkService>();
             services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
