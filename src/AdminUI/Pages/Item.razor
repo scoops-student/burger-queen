@@ -1,9 +1,9 @@
 ﻿@page "/item"
-@*@inject CatalogAPI.Domain.Interfaces.ICatalogService CatalogService*@
+
 @inject NavigationManager NavigationManager
 
 <h3>Item</h3>
-<EditForm Model="@item" OnValidSubmit="HandleRegisrtion">
+<EditForm Model="@item" OnValidSubmit="HandleRegistration">
     <div class="form-group">
         <label for="productName">Product Name</label>
         <InputText id="productName" @bind-Value="item.Name" class="form-control" />
@@ -25,9 +25,9 @@
 
 @code {
 
-    CatalogAPI.Domain.Models.CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
+    private CatalogAPI.Domain.Models.CatalogItem item = new CatalogAPI.Domain.Models.CatalogItem();
 
-    void HandleRegisrtion()
+    private void HandleRegistration()
     {
         Console.WriteLine($"{item.Name}");
 
