@@ -207,7 +207,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Update a CatalogType.
         /// </summary>
-        [HttpPut("type")]
+        [HttpPut("type", Name = "UpdateCatalogType")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogType>> UpdateCatalogType(CatalogType type)

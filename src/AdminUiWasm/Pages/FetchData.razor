@@ -1,0 +1,41 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+@inject CatalogApi.catalog_apiClient client
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (catalogTypes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var type in catalogTypes)
+            {
+                <tr>
+                    <td>@type.Id</td>
+                    <td>@type.Type</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<CatalogApi.CatalogType> catalogTypes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        catalogTypes = await client.TypeAllAsync();
+    }
+}
