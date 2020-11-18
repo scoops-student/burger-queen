@@ -57,7 +57,7 @@ namespace CatalogAPI
             }
             else
             {
-                services.AddTransient<ICatalogService, CatalogEntityFrameworkService>();
+                services.AddScoped<ICatalogService, CatalogEntityFrameworkService>();
                 services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
         }

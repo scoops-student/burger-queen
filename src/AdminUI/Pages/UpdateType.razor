@@ -1,0 +1,28 @@
+﻿@page "/update"
+@using CatalogAPI.Domain.Models
+@inject CatalogAPI.Domain.Interfaces.ICatalogService CatalogService
+@inject NavigationManager NavigationManager
+
+<h3>Update Type</h3>
+
+<EditForm Model="@type" OnValidSubmit="TypeUpdate">
+
+    <div class="form-group">
+        <label for="type">Update Menu Naam</label>
+        <InputText id="type" @bind-Value="type.Type" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</EditForm>
+
+@code {
+    private CatalogType type = new CatalogType();
+
+    private async Task TypeUpdate()
+    {
+        int id = type.Id;
+        CatalogType typename = await CatalogService.GetTypeByIdAsync(id);
+        await CatalogService.UpdateType(typename);
+        NavigationManager.NavigateTo("");
+    }
+}

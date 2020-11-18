@@ -39,7 +39,7 @@ namespace AdminUI
             services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Trace));
 
             services.AddTransient<ICatalogService, CatalogEntityFrameworkService>();
-            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
