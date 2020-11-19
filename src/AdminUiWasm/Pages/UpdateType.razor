@@ -1,0 +1,34 @@
+﻿@page "/UpdateType" 
+
+@inject HttpClient Http
+@inject CatalogApi.catalog_apiClient client
+
+@inject NavigationManager NavigationManager
+
+<h3>Update Type</h3>
+
+<EditForm Model="@type" OnInvalidSubmit="TypeUpdate">
+
+    <div class="form-group">
+        <label for="typeId">Type id</label>
+        <InputNumber id="typeId" @bind-Value="type.Id" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="type">Menu Naam</label>
+        <InputText id="type" @bind-Value="type.Type" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</EditForm>
+
+@code {
+    CatalogApi.CatalogType type;
+
+    private async Task TypeUpdate()
+    {
+        await client.UpdateCatalogTypeAsync(type);
+        NavigationManager.NavigateTo("");
+    }
+}

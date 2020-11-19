@@ -1,6 +1,10 @@
 ﻿@page "/fetchdata"
+
 @inject HttpClient Http
+
 @inject CatalogApi.catalog_apiClient client
+
+@inject NavigationManager NavigationManager
 
 <h1>Weather forecast</h1>
 
@@ -17,6 +21,9 @@ else
             <tr>
                 <th>Id</th>
                 <th>Type</th>
+
+                    <th><button type="submit" class="btn btn-primary" @onclick="CreateType">Create</button></th>
+
             </tr>
         </thead>
         <tbody>
@@ -25,6 +32,49 @@ else
                 <tr>
                     <td>@type.Id</td>
                     <td>@type.Type</td>
+                  
+                        <td><button type="submit" class="btn btn-primary" @onclick="UpdateType">Update</button></td>
+                  
+                        <td><button type="submit" class="btn btn-primary" @onclick="DeleteType">Delete</button></td>
+                    <br />
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                
+                                    <th><button type="submit" class="btn btn-primary" @onclick="CreateItem">Create</button></th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (catalogItems == null)
+                            {
+                                <p><em>Loading...</em></p>
+                            }
+                            else
+                            {
+                                @foreach (var item in catalogItems)
+                                {
+                                    if (item.CatalogTypeId == type.Id)
+                                    {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@item.Description</td>
+                                            <t>@item.Price</t>>
+                                                <td><button type="submit" class="btn btn-primary" @onclick="UpdateItem">Update</button></td>
+                                                <td><button type="submit" class="btn btn-primary" @onclick="DeleteItem">Delete</button></td>
+                                            
+                                        </tr>
+                                        <br />
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
                 </tr>
             }
         </tbody>
@@ -32,10 +82,55 @@ else
 }
 
 @code {
+    CatalogApi.CatalogType type;
+    CatalogApi.CatalogItem item;
+
     private IEnumerable<CatalogApi.CatalogType> catalogTypes;
+    private IEnumerable<CatalogApi.CatalogItem> catalogItems;
 
     protected override async Task OnInitializedAsync()
     {
-        catalogTypes = await client.TypeAllAsync();
+        catalogTypes = await client.GetAllCatalogTypesAsync();
+        catalogItems = await client.GetAllCatalogItemsAsync();
+    }
+
+    private void CreateType()
+    {
+        NavigationManager.NavigateTo("/CreateTypeItem");
+
+    }
+
+    private async Task UpdateType()
+    {
+        int id = type.Id;
+        CatalogApi.CatalogType TypeName = await client.GetCatalogTypeByIdAsync(id);
+        NavigationManager.NavigateTo($"/UpdateType/{TypeName}");
+    }
+
+    private async Task DeleteType()
+    {
+        int id = await client.GetCatalogTypeByIdAsync(type.Id);
+        await client.DeleteCatalogTypeByIdAsync(id);
+        NavigationManager.NavigateTo("");
+    }
+
+    private void CreateItem()
+    {
+        NavigationManager.NavigateTo("/CreateTypeItem");
+
+    }
+
+    private async Task UpdateItem()
+    {
+        int id = item.Id;
+        CatalogApi.CatalogItem ItemName = await client.GetCatalogItemByIdAsync(id);
+        NavigationManager.NavigateTo($"/UpdateItem/{ItemName}");
+    }
+
+    private async Task DeleteItem()
+    {
+        int id = await client.GetCatalogItemByIdAsync(item.id);
+        await client.DeleteCatalogItemByIdAsync(id);
+        NavigationManager.NavigateTo("");
     }
 }

@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogAPI.Domain", "src\Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogAPI.Infrastructure", "src\CatalogAPI.Infrastructure\CatalogAPI.Infrastructure.csproj", "{B4775988-056E-4169-99CB-4AF65D09994A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminUiWasm", "src\AdminUiWasm\AdminUiWasm.csproj", "{A9AA3611-BB10-424A-B88C-0A28EFBE2D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminUiWasm", "src\AdminUiWasm\AdminUiWasm.csproj", "{A9AA3611-BB10-424A-B88C-0A28EFBE2D99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

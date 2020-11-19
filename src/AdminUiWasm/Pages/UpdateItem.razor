@@ -1,0 +1,45 @@
+﻿@page "/UpdateItem"
+
+@inject HttpClient Http
+@inject CatalogApi.catalog_apiClient client
+
+@inject NavigationManager NavigationManager
+
+<h3>Update Item</h3>
+
+<EditForm Model="@item" OnInvalidSubmit="ItemUpdate">
+
+    <div class="form-group">
+        <label for="productName">Product Name</label>
+        <InputText id="productName" @bind-Value="item.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <InputText id="description" @bind-Value="item.Description" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price</label>
+        <InputNumber id="price" @bind-Value="item.Price" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="catalogTypeId">Type id</label>
+        <InputNumber id="catalogTypeId" @bind-Value="item.CatalogTypeId" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" @onclick="ItemUpdate">Update</button>
+
+</EditForm>
+
+@code {
+
+    CatalogApi.CatalogItem item;
+
+    private async Task ItemUpdate()
+    {
+        await client.UpdateCatalogItemAsync(item);
+        NavigationManager.NavigateTo("");
+    }
+}
