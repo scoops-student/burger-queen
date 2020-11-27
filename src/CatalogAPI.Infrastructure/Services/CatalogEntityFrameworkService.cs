@@ -22,7 +22,7 @@ namespace CatalogAPI.Infrastructure.Services
         {
             this.catalogContext.CatalogItems.Add(item);
 
-            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            await this.catalogContext.SaveChangesAsync();
 
             return item;
         }
@@ -37,7 +37,7 @@ namespace CatalogAPI.Infrastructure.Services
             }
 
             this.catalogContext.CatalogItems.Remove(deleteItem);
-            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            await this.catalogContext.SaveChangesAsync();
 
             return;
         }
@@ -75,14 +75,14 @@ namespace CatalogAPI.Infrastructure.Services
             updateItem.CatalogTypeId = item.CatalogTypeId;
 
             this.catalogContext.CatalogItems.Update(updateItem);
-            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            await this.catalogContext.SaveChangesAsync();
             return updateItem;
         }
 
         public async Task<CatalogType> CreateTypeAsync(CatalogType type)
         {
             this.catalogContext.CatalogTypes.Add(type);
-            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            await this.catalogContext.SaveChangesAsync();
             return type;
         }
 
@@ -114,7 +114,7 @@ namespace CatalogAPI.Infrastructure.Services
             updateType.Type = type.Type;
 
             this.catalogContext.CatalogTypes.Update(updateType);
-            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            await this.catalogContext.SaveChangesAsync();
             return type;
         }
 
@@ -128,7 +128,7 @@ namespace CatalogAPI.Infrastructure.Services
             }
 
             this.catalogContext.CatalogTypes.Remove(deleteType);
-            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            await this.catalogContext.SaveChangesAsync();
 
             return;
         }

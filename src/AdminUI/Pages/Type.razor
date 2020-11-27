@@ -7,7 +7,7 @@
 
 <h3>Type</h3>
 
-<EditForm Model="@type" OnValidSubmit="HandleRegistration">
+<EditForm Model="@type" OnValidSubmit="CreateType">
 
     <div class="form-group">
         <label for="type">Menu Naam</label>
@@ -20,7 +20,7 @@
 @code {
     private CatalogType type = new CatalogType();
 
-    private async Task HandleRegistration()
+    private async Task CreateType()
     {
         await CatalogService.CreateTypeAsync(type);
         NavigationManager.NavigateTo("");
