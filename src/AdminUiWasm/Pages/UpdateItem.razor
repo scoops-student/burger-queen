@@ -1,4 +1,5 @@
-﻿@page "/UpdateItem"
+﻿@page "/UpdateItem/{id}"
+@using AdminUiWasm.CatalogApi
 
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
@@ -35,11 +36,25 @@
 
 @code {
 
-    CatalogApi.CatalogItem item;
+	CatalogItem item = new CatalogItem();
 
-    private async Task ItemUpdate()
-    {
-        await client.UpdateCatalogItemAsync(item);
-        NavigationManager.NavigateTo("");
-    }
+	[Parameter]
+	public string Id { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Id = Id ?? "0";
+		CatalogItem Item = await client.GetCatalogItemByIdAsync(Convert.ToInt32(Id));
+		item.Name = Item.Name;
+		item.Description = Item.Description;
+		item.Price = Item.Price;
+		item.CatalogTypeId = Item.CatalogTypeId;
+	}
+
+	private async Task ItemUpdate()
+	{
+		item.Id = Convert.ToInt32(Id);
+		await client.UpdateCatalogItemAsync(item);
+		NavigationManager.NavigateTo("/fetchdata");
+	}
 }
