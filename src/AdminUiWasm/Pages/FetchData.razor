@@ -21,9 +21,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Type</th>
-
-                    <th><button type="submit" class="btn btn-primary" @onclick="CreateType">Create</button></th>
-
+                <th><button type="submit" class="btn btn-primary" @onclick="CreateType">Create</button></th>
             </tr>
         </thead>
         <tbody>
@@ -32,20 +30,18 @@ else
                 <tr>
                     <td>@type.Id</td>
                     <td>@type.Type</td>
-                  
-                        <td><button type="submit" class="btn btn-primary" @onclick="UpdateType">Update</button></td>
-                  
-                        <td><button type="submit" class="btn btn-primary" @onclick="DeleteType">Delete</button></td>
+                    <td><button id="@type.Id" type="submit" class="btn btn-primary" @onclick="UpdateType">Update</button></td>
+                    <td><button type="submit" class="btn btn-primary" @onclick="()=>DeleteType(type.Id)">Delete</button></td>
                     <br />
 
                     <table>
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Item</th>
                                 <th>Description</th>
                                 <th>Price</th>
-                                
-                                    <th><button type="submit" class="btn btn-primary" @onclick="CreateItem">Create</button></th>
+                                <th><button type="submit" class="btn btn-primary" @onclick="CreateItem">Create</button></th>
                                 
                             </tr>
                         </thead>
@@ -61,20 +57,20 @@ else
                                     if (item.CatalogTypeId == type.Id)
                                     {
                                         <tr>
+                                            <td>@item.Id</td>
                                             <td>@item.Name</td>
                                             <td>@item.Description</td>
                                             <t>@item.Price</t>>
-                                                <td><button type="submit" class="btn btn-primary" @onclick="UpdateItem">Update</button></td>
-                                                <td><button type="submit" class="btn btn-primary" @onclick="DeleteItem">Delete</button></td>
-                                            
+                                            <td><button value="@item.Id" type="submit" class="btn btn-primary" @onclick="()=>UpdateItem(item.Id)">Update</button></td>
+                                            <td><button value="@item.Id" type="submit" class="btn btn-primary" @onclick="()=>DeleteItem(item.Id)">Delete</button></td>
                                         </tr>
                                         <br />
                                     }
                                 }
                             }
-
                         </tbody>
                     </table>
+
                 </tr>
             }
         </tbody>
@@ -88,6 +84,12 @@ else
     private IEnumerable<CatalogApi.CatalogType> catalogTypes;
     private IEnumerable<CatalogApi.CatalogItem> catalogItems;
 
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int DeleteId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         catalogTypes = await client.GetAllCatalogTypesAsync();
@@ -97,40 +99,34 @@ else
     private void CreateType()
     {
         NavigationManager.NavigateTo("/CreateTypeItem");
-
     }
 
     private async Task UpdateType()
     {
-        int id = type.Id;
-        CatalogApi.CatalogType TypeName = await client.GetCatalogTypeByIdAsync(id);
-        NavigationManager.NavigateTo($"/UpdateType/{TypeName}");
+        int Id = type.Id;
+        NavigationManager.NavigateTo($"/UpdateType{Id}");
     }
 
-    private async Task DeleteType()
+    private async Task DeleteType(int id)
     {
-        int id = await client.GetCatalogTypeByIdAsync(type.Id);
-        await client.DeleteCatalogTypeByIdAsync(id);
-        NavigationManager.NavigateTo("");
+        type = await client.GetCatalogTypeByIdAsync(id);
+        NavigationManager.NavigateTo($"/DeleteType/{type.Id}");
     }
 
     private void CreateItem()
     {
         NavigationManager.NavigateTo("/CreateTypeItem");
-
     }
 
-    private async Task UpdateItem()
+    private async Task UpdateItem(int id)
     {
-        int id = item.Id;
-        CatalogApi.CatalogItem ItemName = await client.GetCatalogItemByIdAsync(id);
-        NavigationManager.NavigateTo($"/UpdateItem/{ItemName}");
+        item = await client.GetCatalogItemByIdAsync(id);
+        NavigationManager.NavigateTo($"/UpdateItem/{item.Id}");
     }
 
-    private async Task DeleteItem()
+    private async Task DeleteItem(int id)
     {
-        int id = await client.GetCatalogItemByIdAsync(item.id);
-        await client.DeleteCatalogItemByIdAsync(id);
-        NavigationManager.NavigateTo("");
+        item = await client.GetCatalogItemByIdAsync(id);
+        NavigationManager.NavigateTo($"/DeleteItem/{item.Id}");
     }
 }

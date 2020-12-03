@@ -1,4 +1,6 @@
-﻿@page "/UpdateType" 
+﻿@page "/UpdateType"
+
+@using AdminUiWasm.CatalogApi
 
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
@@ -7,7 +9,7 @@
 
 <h3>Update Type</h3>
 
-<EditForm Model="@type" OnInvalidSubmit="TypeUpdate">
+<EditForm Model="@type" OnValidSubmit="TypeUpdate">
 
     <div class="form-group">
         <label for="typeId">Type id</label>
@@ -24,7 +26,7 @@
 </EditForm>
 
 @code {
-    CatalogApi.CatalogType type;
+    CatalogType type = new CatalogType();
 
     private async Task TypeUpdate()
     {
