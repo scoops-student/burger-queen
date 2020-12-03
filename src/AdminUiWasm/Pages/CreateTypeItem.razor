@@ -1,6 +1,8 @@
 ﻿@page "/CreateTypeItem"
 @using AdminUiWasm.CatalogApi
 
+@using AdminUiWasm.CatalogApi
+
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
 
@@ -49,7 +51,6 @@
 
 
 @code {
-
 	CatalogType type = new CatalogType();
 	CatalogItem item = new CatalogItem();
 
