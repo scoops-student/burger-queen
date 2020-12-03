@@ -1,5 +1,5 @@
 ﻿@page "/"
-
+@inject NavigationManager NavigationManager
 <h1>Welcome to Burger Queen!</h1>
 
 <p>Here you can taste different burgers, snacks, dessert, ... .</p>
@@ -7,4 +7,13 @@
 <p>Whatever you like most, we have it!</p>
 
 
-<button></button>
+<button class="btn btn-primary" @onclick="Order">Let's order some food!!! :)</button>
+
+@code
+{
+	private void Order()
+	{
+		NavigationManager.NavigateTo("/fetchdata");
+
+	}
+}

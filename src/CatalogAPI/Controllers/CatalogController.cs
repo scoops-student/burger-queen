@@ -53,7 +53,7 @@ namespace CatalogAPI.Controllers
 
                 var newItem = await this.catalogService.CreateItemAsync(item).ConfigureAwait(false);
 
-                return this.CreatedAtAction("GetCatalogItemById", newItem.Id, newItem);
+                return this.CreatedAtAction(nameof(GetCatalogItemById), new { id = newItem.Id }, newItem);
             }
             catch (ArgumentException)
             {
@@ -161,7 +161,7 @@ namespace CatalogAPI.Controllers
                 }
 
                 var newItem = await this.catalogService.CreateTypeAsync(type).ConfigureAwait(false);
-                return this.CreatedAtAction("GetCatalogTypeById", newItem.Id, newItem);
+                return this.CreatedAtAction(nameof(GetCatalogTypeById), new {id= newItem.Id}, newItem);
             }
             catch (ArgumentException)
             {
