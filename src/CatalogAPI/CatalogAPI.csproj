@@ -29,6 +29,10 @@
     <ProjectReference Include="..\CatalogAPI.Infrastructure\CatalogAPI.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+        <Watch Include="..\Client\**\*razor"/>
+	</ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 
