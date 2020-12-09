@@ -65,6 +65,7 @@
 	private async Task CreateType()
 	{
 		await client.CreateCatalogTypeAsync(type);
+		StateHasChanged();
 	}
 
 	private void Item()
@@ -75,5 +76,6 @@
 	private async Task CreateItem()
 	{
 		await client.CreateCatalogItemAsync(item);
+		StateHasChanged();
 	}
 }
