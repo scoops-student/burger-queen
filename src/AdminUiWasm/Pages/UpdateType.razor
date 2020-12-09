@@ -1,0 +1,48 @@
+﻿@page "/UpdateType/{id}"
+
+@using AdminUiWasm.CatalogApi
+
+@inject HttpClient Http
+@inject catalog_apiClient client
+
+@inject NavigationManager NavigationManager
+
+<h3>Update Type</h3>
+
+<EditForm Model="@type" OnValidSubmit="TypeUpdate">
+
+	<div class="form-group">
+		<label for="typeId">Type id</label>
+		<InputText id="typeId" @bind-Value="@Id" class="form-control" />
+		@*<label>@Id</label>*@
+	</div>
+
+	<div class="form-group">
+		<label for="type">Menu Naam</label>
+		<InputText id="type" @bind-Value="@type.Type" class="form-control" />
+	</div>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
+
+</EditForm>
+
+@code {
+	private CatalogType type = new CatalogType();
+
+	[Parameter]
+	public string Id { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Id = Id ?? "0";
+		CatalogType Type = await client.GetCatalogTypeByIdAsync(Convert.ToInt32(Id));
+		type.Type = Type.Type;
+	}
+
+	private async Task TypeUpdate()
+	{
+		type.Id = Convert.ToInt32(Id);
+		await client.UpdateCatalogTypeAsync(type);
+		NavigationManager.NavigateTo("/fetchdata");
+	}
+}

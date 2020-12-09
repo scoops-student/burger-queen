@@ -7,6 +7,5 @@
         public string Type { get; set; }
 
         public string[] Catalogitems { get; set; }
-
     }
 }

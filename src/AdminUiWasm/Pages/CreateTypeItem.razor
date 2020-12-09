@@ -1,0 +1,79 @@
+﻿@page "/CreateTypeItem"
+@using AdminUiWasm.CatalogApi
+
+@using AdminUiWasm.CatalogApi
+
+@inject HttpClient Http
+@inject CatalogApi.catalog_apiClient client
+
+@inject NavigationManager NavigationManager
+
+<h3>Create type</h3>
+<br />
+
+<EditForm Model="@type" OnValidSubmit="Type">
+	<div class="form-group">
+		<label for="type">Name</label>
+		<InputText id="type" @bind-Value="type.Type" class="form-control" />
+	</div>
+
+	<button type="submit" class="btn btn-primary" @onclick="CreateType">Create type</button>
+</EditForm>
+<br />
+
+
+<h3>Create item</h3>
+<br />
+
+<EditForm Model="@item" OnValidSubmit="Item">
+	<div class="form-group">
+		<label for="productName">Product Name</label>
+		<InputText id="productName" @bind-Value="item.Name" class="form-control" />
+	</div>
+
+	<div class="form-group">
+		<label for="description">Description</label>
+		<InputText id="description" @bind-Value="item.Description" class="form-control" />
+	</div>
+
+	<div class="form-group">
+		<label for="price">Price</label>
+		<InputNumber id="price" @bind-Value="item.Price" class="form-control" />
+	</div>
+
+	<div class="form-group">
+		<label for="catalogTypeId">Type id</label>
+		<InputNumber id="catalogTypeId" @bind-Value="item.CatalogTypeId" class="form-control" />
+	</div>
+
+	<button type="submit" class="btn btn-primary" @onclick="CreateItem">Create item</button>
+</EditForm>
+
+
+@code {
+	CatalogType type = new CatalogType();
+	CatalogItem item = new CatalogItem();
+
+	private IEnumerable<CatalogType> catalogTypes;
+	private IEnumerable<CatalogItem> catalogItems;
+
+	private void Type()
+	{
+		NavigationManager.NavigateTo("/fetchdata");
+	}
+
+	private async Task CreateType()
+	{
+		await client.CreateCatalogTypeAsync(type);
+	}
+
+	private void Item()
+	{
+		NavigationManager.NavigateTo("/fetchdata");
+	}
+
+	private async Task CreateItem()
+	{
+		await client.CreateCatalogItemAsync(item);
+	}
+}

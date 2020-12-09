@@ -32,7 +32,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Create a new CatalogItem.
         /// </summary>
-        [HttpPost]
+        [HttpPost("item", Name = "CreateCatalogItem")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> CreateCatalogItem(CatalogItem item)
@@ -53,7 +53,7 @@ namespace CatalogAPI.Controllers
 
                 var newItem = await this.catalogService.CreateItemAsync(item).ConfigureAwait(false);
 
-                return this.CreatedAtAction("GetCatalogItemById", newItem.Id, newItem);
+                return this.CreatedAtAction(nameof(GetCatalogItemById), new { id = newItem.Id }, newItem);
             }
             catch (ArgumentException)
             {
@@ -64,7 +64,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Retrieve all CatalogItems.
         /// </summary>
-        [HttpGet]
+        [HttpGet("item", Name = "GetAllCatalogItems")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> GetAllCatalogItems()
         {
@@ -74,7 +74,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Retrieve 1 CatalogItem by its id.
         /// </summary>
-        [HttpGet("{id}")]
+        [HttpGet("item/{id}", Name = "GetCatalogItemById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> GetCatalogItemById(int id)
@@ -99,7 +99,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Update a CatalogItem.
         /// </summary>
-        [HttpPut]
+        [HttpPut("item", Name = "UpdateCatalogItem")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogItem>> UpdateCatalogItem(CatalogItem item)
@@ -121,7 +121,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Delete 1 CatalogItem by its id.
         /// </summary>
-        [HttpDelete("{id}")]
+        [HttpDelete("by-item/{id}", Name = "DeleteCatalogItemById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteCatalogItemById(int id)
@@ -141,7 +141,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Create a new CatalogType.
         /// </summary>
-        [HttpPost("type")]
+        [HttpPost("type", Name = "CreateCatalogType")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogType>> CreateCatalogType(CatalogType type)
@@ -161,7 +161,7 @@ namespace CatalogAPI.Controllers
                 }
 
                 var newItem = await this.catalogService.CreateTypeAsync(type).ConfigureAwait(false);
-                return this.CreatedAtAction("GetCatalogTypeById", newItem.Id, newItem);
+                return this.CreatedAtAction(nameof(GetCatalogTypeById), new {id= newItem.Id}, newItem);
             }
             catch (ArgumentException)
             {
@@ -172,7 +172,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Retrieve all CatalogTypes.
         /// </summary>
-        [HttpGet("type")]
+        [HttpGet("type", Name = "GetAllCatalogTypes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CatalogType>>> GetAllCatalogTypes()
         {
@@ -182,7 +182,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Retrieve 1 CatalogType by its id.
         /// </summary>
-        [HttpGet("type/{id}")]
+        [HttpGet("type/{id}", Name = "GetCatalogTypeById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogType>> GetCatalogTypeById(int id)
@@ -207,7 +207,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Update a CatalogType.
         /// </summary>
-        [HttpPut("type")]
+        [HttpPut("type", Name = "UpdateCatalogType")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CatalogType>> UpdateCatalogType(CatalogType type)
@@ -228,7 +228,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Delete 1 CatalogType by its id.
         /// </summary>
-        [HttpDelete("type/{id}")]
+        [HttpDelete("type/{id}", Name = "DeleteCatalogTypeById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteCatalogTypeById(int id)
@@ -249,7 +249,7 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// Retrieve all CatalogItems for a given CatalogType, by its id.
         /// </summary>
-        [HttpGet("by-type/{id}")]
+        [HttpGet("by-type/{id}", Name = "GetCatalogItemsByCatalogTypeId")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CatalogItem>>> GetCatalogItemsByCatalogTypeId(int id)
