@@ -7,7 +7,6 @@
 
 @inject NavigationManager NavigationManager
 
-
 <div>
 	<div class="modal-header">
 		<h4 class="modal-title">Confirm delete</h4>
@@ -23,12 +22,12 @@
 		<button type="button" class="btn" data-dismiss="modal" @onclick="Cancel">Cancel</button>
 		<button type="button" class="btn btn-danger" @onclick="Delete">Delete</button>
 	</div>
-
 </div>
 
 @code {
 
 	private IEnumerable<CatalogItem> catalogItems;
+
 	CatalogType type = new CatalogType();
 	CatalogItem item = new CatalogItem();
 
@@ -66,7 +65,5 @@
 		await client.DeleteCatalogTypeByIdAsync(type.Id);
 
 		NavigationManager.NavigateTo("");
-
 	}
-
 }

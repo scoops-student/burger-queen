@@ -10,10 +10,8 @@
 {
     <p><em>Loading...</em></p>
 }
-
 else
 {
-
     <h3>Create item</h3>
     <br />
 
@@ -53,6 +51,12 @@ else
     private IEnumerable<CatalogItem> catalogItems;
     private IEnumerable<CatalogType> catalogTypes;
 
+    protected override async Task OnInitializedAsync()
+    {
+        catalogTypes = await client.GetAllCatalogTypesAsync();
+
+    }
+
     private void Item()
     {
         NavigationManager.NavigateTo("/fetchdata");
@@ -61,5 +65,6 @@ else
     private async Task ItemCreate()
     {
         await client.CreateCatalogItemAsync(item);
+        StateHasChanged();
     }
 }
