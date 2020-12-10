@@ -16,7 +16,7 @@
 
     <div class="modal-body">
         <input type="hidden" id="bookToDeleteField" />
-        Are you sure you want to delete this item <span id="bookTitleField"></span>?
+        Are you sure you want to delete @item.Name <span id="bookTitleField"></span>?
     </div>
 
     <div class="modal-footer">
@@ -37,6 +37,7 @@
     {
         DeleteId = DeleteId ?? "0";
         CatalogItem item = await client.GetCatalogItemByIdAsync(Convert.ToInt32(DeleteId));
+	    this.item.Name = item.Name;
     }
 
     private void Cancel()
