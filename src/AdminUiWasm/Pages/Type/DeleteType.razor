@@ -52,8 +52,7 @@
 		type.Id = Convert.ToInt32(DeleteId);
 
 		foreach (var item in catalogItems)
-		{
-
+		{	
 			this.item.Id = item.Id;
 			this.item.Name = item.Name;
 			this.item.Description = item.Description;
@@ -63,7 +62,7 @@
 
 			await client.DeleteCatalogItemByIdAsync(this.item.Id);
 		}
-
+    
 		await client.DeleteCatalogTypeByIdAsync(type.Id);
 
 		NavigationManager.NavigateTo("");
