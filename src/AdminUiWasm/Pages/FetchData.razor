@@ -7,8 +7,6 @@
 
 @inject NavigationManager NavigationManager
 
-
-
 @if (catalogTypes == null)
 {
     <p><em>Loading...</em></p>
@@ -73,7 +71,7 @@ else
                                             <td>@item.Id</td>
                                             <td>@item.Name</td>
                                             <td>@item.Description</td>
-                                            <t>@item.Price</t>>
+                                            <td>€ @item.Price</td>
                                             <td><button type="submit" class="btn btn-primary" @onclick="()=>UpdateItem(item.Id)">Update</button></td>
                                             <td><button type="submit" class="btn btn-primary" @onclick="()=>DeleteItem(item.Id)">Delete</button></td>
                                         </tr>

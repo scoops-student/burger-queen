@@ -6,6 +6,7 @@
 @inject CatalogApi.catalog_apiClient client
 
 @inject NavigationManager NavigationManager
+
 @if (catalogTypes == null)
 {
 	<p><em>Loading...</em></p>
@@ -43,7 +44,6 @@ else
 					{
 					<option value="@type.Id">@type.Type</option>
 					}
-
 			</InputSelect>
 		</div>
 
@@ -51,6 +51,7 @@ else
 
 	</EditForm>
 }
+
 @code {
 	CatalogItem item = new CatalogItem();
 
