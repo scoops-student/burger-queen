@@ -7,22 +7,34 @@
 
 @inject NavigationManager NavigationManager
 
-<h1>Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
 
 @if (catalogTypes == null)
 {
-	<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
+    <h1>Burger Queen</h1>
+
+    <p>This component demonstrates fetching data from the server.</p>
+
+    <p>Create type</p>
+    <div>
+        <button type="submit" class="btn btn-primary" @onclick="CreateType">Create</button>
+    </div>
+    <br />
+    <p>Create item</p>
+    <div>
+        <button type="submit" class="btn btn-primary" @onclick="CreateItem">Create</button>
+    </div>
+    <br />
+
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Type</th>
-                <th><button type="submit" class="btn btn-primary" @onclick="CreateType">Create</button></th>
             </tr>
         </thead>
         <tbody>
@@ -34,16 +46,16 @@ else
                     <td><button type="submit" class="btn btn-primary" @onclick="()=>UpdateType(type.Id)">Update</button></td>
                     <td><button type="submit" class="btn btn-primary" @onclick="()=>DeleteType(type.Id)">Delete</button></td>
                     <br />
+                    <br />
+                    <br />
 
-                    <table>
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Item</th>
                                 <th>Description</th>
                                 <th>Price</th>
-                                <th><button type="submit" class="btn btn-primary" @onclick="CreateItem">Create</button></th>
-                                
                             </tr>
                         </thead>
                         <tbody>
@@ -96,11 +108,11 @@ else
         NavigationManager.NavigateTo("/CreateTypeItem");
     }
 
-	  private async Task UpdateType(int id)
-	  {
-		  type = await client.GetCatalogTypeByIdAsync(id);
-		  NavigationManager.NavigateTo($"/UpdateType/{type.Id}");
-	  }
+    private async Task UpdateType(int id)
+    {
+        type = await client.GetCatalogTypeByIdAsync(id);
+        NavigationManager.NavigateTo($"/UpdateType/{type.Id}");
+    }
 
     private async Task DeleteType(int id)
     {
@@ -112,12 +124,12 @@ else
     {
         NavigationManager.NavigateTo("/CreateTypeItem");
     }
-      
-	  private async Task UpdateItem(int id)
-	  {
-		  item = await client.GetCatalogItemByIdAsync(id);
-		  NavigationManager.NavigateTo($"/UpdateItem/{item.Id}");
-	  }
+
+    private async Task UpdateItem(int id)
+    {
+        item = await client.GetCatalogItemByIdAsync(id);
+        NavigationManager.NavigateTo($"/UpdateItem/{item.Id}");
+    }
 
     private async Task DeleteItem(int id)
     {
