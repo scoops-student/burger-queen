@@ -1,11 +1,14 @@
 ﻿@page "/UpdateItem/{id}"
 
 @using AdminUiWasm.CatalogApi
+@using Tewr.Blazor.FileReader
+@using System.IO
 
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
 
 @inject NavigationManager NavigationManager
+@inject IFileReaderService FileReader
 
 @if (catalogTypes == null)
 {
@@ -20,6 +23,11 @@ else
 		<div class="form-group">
 			<label for="itemId">Item Id</label>
 			<InputText id="itemId" @bind-Value="@Id" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="picture">Picture</label>
+			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
 		</div>
 
 		<div class="form-group">
@@ -57,6 +65,13 @@ else
 
 	private IEnumerable<CatalogType> catalogTypes;
 
+
+	ElementReference inputReference;
+	string imagePath = null;
+	string fileName = string.Empty;
+
+	Stream fileStream = null;
+
 	[Parameter]
 	public string Id { get; set; }
 
@@ -77,6 +92,21 @@ else
 		item.Id = Convert.ToInt32(Id);
 		await client.UpdateCatalogItemAsync(item);
 		NavigationManager.NavigateTo("/fetchdata");
+	}
+
+	private async Task SelectFile()
+	{
+		var file = (await FileReader.CreateReference(inputReference).EnumerateFilesAsync()).FirstOrDefault();
+
+		if (file == null)
+			return;
+		var fileinfo = await file.ReadFileInfoAsync();
+		fileName = fileinfo.Name;
+
+		using (var memory = await file.CreateMemoryStreamAsync((int)fileinfo.Size))
+		{
+			fileStream = memory;
+		}
 	}
 }
 
