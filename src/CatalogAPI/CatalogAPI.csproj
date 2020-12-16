@@ -30,7 +30,11 @@
   </ItemGroup>
 
 	<ItemGroup>
-        <Watch Include="..\Client\**\*razor"/>
+        <Watch Include="..\Client\**\*razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\Image\" />
 	</ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
