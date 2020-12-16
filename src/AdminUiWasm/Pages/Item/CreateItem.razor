@@ -2,6 +2,7 @@
 @using AdminUiWasm.CatalogApi
 @using Tewr.Blazor.FileReader
 @using System.IO
+
 @using System.Net.Http.Headers
 
 @inject HttpClient Http
@@ -47,6 +48,11 @@ else
 	</div>
 
 	<EditForm Model="@item" OnValidSubmit="Item">
+
+		<div class="form-group">
+			<label for="picture">Picture</label>
+			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
+		</div>
 
 		<div class="form-group">
 			<label for="productName">Product Name</label>
@@ -95,7 +101,7 @@ else
 		catalogTypes = await client.GetAllCatalogTypesAsync();
 
 	}
-
+    
 	private void Item()
 	{
 		StateHasChanged();
