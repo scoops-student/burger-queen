@@ -292,7 +292,7 @@ namespace CatalogAPI.Controllers
                 else
                 {
                     string newFileName = $"{Guid.NewGuid()}{extension}";
-                    string filePath = Path.Combine(this.environment.ContentRootPath, "Image", newFileName);
+                    string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
 
                 }
             }
