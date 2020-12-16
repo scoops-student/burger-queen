@@ -294,6 +294,12 @@ namespace CatalogAPI.Controllers
                     string newFileName = $"{Guid.NewGuid()}{extension}";
                     string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
 
+                    using(var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+
+                    return Ok($"Image/{newFileName}");
                 }
             }
         }
