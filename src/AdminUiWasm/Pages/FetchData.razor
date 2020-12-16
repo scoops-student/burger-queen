@@ -31,16 +31,14 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Type</th>
+	            <th>Type</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var type in catalogTypes)
             {
                 <tr>
-                    <td>@type.Id</td>
-                    <td>@type.Type</td>
+	                <td>@type.Type</td>
                     <td><button type="submit" class="btn btn-primary" @onclick="()=>UpdateType(type.Id)">Update</button></td>
                     <td><button type="submit" class="btn btn-primary" @onclick="()=>DeleteType(type.Id)">Delete</button></td>
                     <br />
@@ -49,12 +47,12 @@ else
 
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Item</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                            </tr>
+                        <tr>
+	                        <th>Picture</th>
+	                        <th>Item</th>
+	                        <th>Description</th>
+	                        <th>Price</th>
+                        </tr>
                         </thead>
                         <tbody>
                             @if (catalogItems == null)
@@ -68,7 +66,7 @@ else
                                     if (item.CatalogTypeId == type.Id)
                                     {
                                         <tr>
-                                            <td>@item.Id</td>
+                                            <td>@item.PictureUri</td>
                                             <td>@item.Name</td>
                                             <td>@item.Description</td>
                                             <td>€ @item.Price</td>
