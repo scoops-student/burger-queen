@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using CatalogAPI.Domain.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 
@@ -22,11 +24,13 @@ namespace CatalogAPI.Controllers
     {
         private readonly ILogger<CatalogController> logger;
         private readonly ICatalogService catalogService;
+        private readonly IHostEnvironment environment;
 
-        public CatalogController(ILogger<CatalogController> logger, ICatalogService catalogService)
+        public CatalogController(ILogger<CatalogController> logger, ICatalogService catalogService, IHostEnvironment environment)
         {
             this.logger = logger;
             this.catalogService = catalogService;
+            this.environment = environment;
         }
 
         /// <summary>
@@ -262,6 +266,35 @@ namespace CatalogAPI.Controllers
             catch (Exception)
             {
                 return this.BadRequest();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> PostImage([FromForm]IFormFile image)
+        {
+            if(image == null || image.Length == 0)
+            {
+                return BadRequest("Upload a file!");
+            }
+            else
+            {
+                string fileName = image.FileName;
+                string extension = Path.GetExtension(fileName);
+                string[] allowedExtension = { ".jpg", ".png", ".bmp" };
+
+                if(!allowedExtension.Contains(extension))
+                {
+                    return BadRequest("File is not a valid image!");
+                }
+                else
+                {
+                    string newFileName = $"{Guid.NewGuid()}{extension}";
+                    string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
+
+                }
             }
         }
     }
