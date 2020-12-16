@@ -14,5 +14,6 @@ namespace CatalogAPI.Domain.Models
         public string PictureUri { get; set; }
 
         public int CatalogTypeId { get; set; }
+
     }
 }
