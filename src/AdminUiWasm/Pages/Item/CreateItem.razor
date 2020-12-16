@@ -1,71 +1,150 @@
 ﻿@page "/CreateItem"
 @using AdminUiWasm.CatalogApi
+@using Tewr.Blazor.FileReader
+@using System.IO
+
+@using System.Net.Http.Headers
 
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
 
 @inject NavigationManager NavigationManager
+@inject IFileReaderService FileReader
 
 @if (catalogTypes == null)
 {
-    <p><em>Loading...</em></p>
+	<p><em>Loading...</em></p>
 }
 else
 {
-    <h3>Create item</h3>
-    <br />
+	<h3>Create item</h3>
+	<br />
+	<br/>
+	<br/>
+	<div class="form-group">
+		<label for="picture">Picture</label>
+		<input type="file" id="picture" @ref="inputReference" @onchange="SelectFile" />
+		<br />
+		<button class="btn btn-primary" @onclick="UploadFile">Upload Picture</button>
 
-    <EditForm Model="@item" OnValidSubmit="Item">
-        <div class="form-group">
-            <label for="productName">Product Name</label>
-            <InputText id="productName" @bind-Value="item.Name" class="form-control" />
-        </div>
+		@if (!string.IsNullOrWhiteSpace(message))
+		{
+			<br />
+			<div class="alert alert-success"> Picture has been uploaded</div>
+		}
+		else
+		{
+			<br />
+			<div class="alert alert-warning"> picture has not been uploaded</div>
+		}
 
-        <div class="form-group">
-            <label for="description">Description</label>
-            <InputText id="description" @bind-Value="item.Description" class="form-control" />
-        </div>
+		@if (imagePath != null)
+		{
+			<br />
+			<label>File name: @fileName</label>
+			<br />
+			<img style="width: 100px" src="@imagePath" />
+		}
+	</div>
 
-        <div class="form-group">
-            <label for="price">Price</label>
-            <InputNumber id="price" @bind-Value="item.Price" class="form-control" />
-        </div>
+	<EditForm Model="@item" OnValidSubmit="Item">
 
-        <div class="form-group">
-            <label for="catalogTypeId">Type id</label>
-            <InputSelect id="catalogTypeId" @bind-Value="item.CatalogTypeId" class="form-control">
-                @foreach (var type in catalogTypes)
-                    {
-                    <option value="@type.Id">@type.Type</option>
-                    }
-            </InputSelect>
-        </div>
+		<div class="form-group">
+			<label for="picture">Picture</label>
+			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
+		</div>
 
-        <button type="submit" class="btn btn-primary" @onclick="ItemCreate">Create item</button>
-    </EditForm>
+		<div class="form-group">
+			<label for="productName">Product Name</label>
+			<InputText id="productName" @bind-Value="item.Name" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="description">Description</label>
+			<InputText id="description" @bind-Value="item.Description" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="price">Price</label>
+			<InputNumber id="price" @bind-Value="item.Price" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<label for="catalogTypeId">Type id</label>
+			<InputSelect id="catalogTypeId" @bind-Value="item.CatalogTypeId" class="form-control">
+				@foreach (var type in catalogTypes)
+					{
+					<option value="@type.Id">@type.Type</option>
+					}
+			</InputSelect>
+		</div>
+
+		<button type="submit" class="btn btn-primary" @onclick="ItemCreate">Create item</button>
+	</EditForm>
 }
 
 @code {
-    CatalogItem item = new CatalogItem();
+	CatalogItem item = new CatalogItem();
 
-    private IEnumerable<CatalogItem> catalogItems;
-    private IEnumerable<CatalogType> catalogTypes;
+	private IEnumerable<CatalogItem> catalogItems;
+	private IEnumerable<CatalogType> catalogTypes;
 
-    protected override async Task OnInitializedAsync()
-    {
-        catalogTypes = await client.GetAllCatalogTypesAsync();
+	ElementReference inputReference;
+	string imagePath = null;
+	string fileName = string.Empty;
+	string message = string.Empty;
 
-    }
+	Stream fileStream = null;
 
-    private void Item()
-    {
-	    StateHasChanged();
-        NavigationManager.NavigateTo("/fetchdata");
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		catalogTypes = await client.GetAllCatalogTypesAsync();
 
-    private async Task ItemCreate()
-    {
-        await client.CreateCatalogItemAsync(item);
-        StateHasChanged();
-    }
+	}
+    
+	private void Item()
+	{
+		StateHasChanged();
+		NavigationManager.NavigateTo("/fetchdata");
+	}
+
+	private async Task ItemCreate()
+	{
+		await client.CreateCatalogItemAsync(item);
+		StateHasChanged();
+	}
+
+	private async Task SelectFile()
+	{
+		var file = (await FileReader.CreateReference(inputReference).EnumerateFilesAsync()).FirstOrDefault();
+
+		if (file == null)
+			return;
+		var fileinfo = await file.ReadFileInfoAsync();
+		fileName = fileinfo.Name;
+
+		using (var memory = await file.CreateMemoryStreamAsync((int)fileinfo.Size))
+		{
+			fileStream = new MemoryStream(memory.ToArray());
+		}
+	}
+
+	private async Task UploadFile()
+	{
+		var content = new MultipartFormDataContent();
+		content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+
+		content.Add(new StreamContent(fileStream, (int)fileStream.Length), "Image", fileName);
+
+		string url = "https://localhost:5001";
+
+		var response = await Http.PostAsync($"{url}/api/images", content);
+
+		if (response.IsSuccessStatusCode)
+		{
+			var uploadedfile = await response.Content.ReadAsStringAsync();
+			imagePath = $"{url}/{uploadedfile}";
+			message = "File has been uploaded succesfully";
+		}
+	}
 }
