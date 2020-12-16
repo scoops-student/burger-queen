@@ -2,6 +2,7 @@
 @using AdminUiWasm.CatalogApi
 @using Tewr.Blazor.FileReader
 @using System.IO
+@using System.Net.Http.Headers
 
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
@@ -17,13 +18,35 @@ else
 {
 	<h3>Create item</h3>
 	<br />
+	<br/>
+	<br/>
+	<div class="form-group">
+		<label for="picture">Picture</label>
+		<input type="file" id="picture" @ref="inputReference" @onchange="SelectFile" />
+		<br />
+		<button class="btn btn-primary" @onclick="UploadFile">Upload Picture</button>
+
+		@if (!string.IsNullOrWhiteSpace(message))
+		{
+			<br />
+			<div class="alert alert-success"> Picture has been uploaded</div>
+		}
+		else
+		{
+			<br />
+			<div class="alert alert-warning"> picture has not been uploaded</div>
+		}
+
+		@if (imagePath != null)
+		{
+			<br />
+			<label>File name: @fileName</label>
+			<br />
+			<img style="width: 100px" src="@imagePath" />
+		}
+	</div>
 
 	<EditForm Model="@item" OnValidSubmit="Item">
-
-		<div class="form-group">
-			<label for="picture">Picture</label>
-			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
-		</div>
 
 		<div class="form-group">
 			<label for="productName">Product Name</label>
@@ -33,13 +56,6 @@ else
 		<div class="form-group">
 			<label for="description">Description</label>
 			<InputText id="description" @bind-Value="item.Description" class="form-control" />
-			@if (imagePath != null)
-			{
-				<label>File name: @fileName</label>
-				<br />
-				<img style="width: 100px" src="" />
-			}
-
 		</div>
 
 		<div class="form-group">
@@ -70,6 +86,7 @@ else
 	ElementReference inputReference;
 	string imagePath = null;
 	string fileName = string.Empty;
+	string message = string.Empty;
 
 	Stream fileStream = null;
 
@@ -102,7 +119,26 @@ else
 
 		using (var memory = await file.CreateMemoryStreamAsync((int)fileinfo.Size))
 		{
-			fileStream = memory;
+			fileStream = new MemoryStream(memory.ToArray());
+		}
+	}
+
+	private async Task UploadFile()
+	{
+		var content = new MultipartFormDataContent();
+		content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+
+		content.Add(new StreamContent(fileStream, (int)fileStream.Length), "Image", fileName);
+
+		string url = "https://localhost:5001";
+
+		var response = await Http.PostAsync($"{url}/api/images", content);
+
+		if (response.IsSuccessStatusCode)
+		{
+			var uploadedfile = await response.Content.ReadAsStringAsync();
+			imagePath = $"{url}/{uploadedfile}";
+			message = "File has been uploaded succesfully";
 		}
 	}
 }
