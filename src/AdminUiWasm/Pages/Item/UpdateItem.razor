@@ -3,7 +3,6 @@
 @using AdminUiWasm.CatalogApi
 @using Tewr.Blazor.FileReader
 @using System.IO
-
 @using System.Net.Http.Headers
 
 @inject HttpClient Http
@@ -25,7 +24,9 @@ else
 	<div class="form-group">
 		<label for="picture">Picture</label>
 		<input type="file" id="picture" @ref="inputReference" @onchange="SelectFile" />
-		<button class="btn btn-primary" @onclick="UploadFile">Upload Picture</button>
+		<br/>
+		<button class="btn btn-primary" @onclick="UploadFile" bind="item.PictureUri">Upload Picture</button>
+
 		@if (!string.IsNullOrWhiteSpace(message))
 		{
 			<br />
@@ -34,7 +35,7 @@ else
 		else
 		{
 			<br />
-			<div class="alert alert-success"> File has not been uploaded</div>
+			<div class="alert alert-warning"> File has not been uploaded</div>
 		}
 		@if (imagePath != null)
 		{
@@ -51,13 +52,6 @@ else
 		<div class="form-group">
 			<label for="itemId">Item Id</label>
 			<InputText id="itemId" @bind-Value="@Id" class="form-control" />
-		</div>
-
-
-
-		<div class="form-group">
-			<label for="picture">Picture</label>
-			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
 		</div>
 
 		<div class="form-group">
@@ -121,6 +115,7 @@ else
 		item.Description = Item.Description;
 		item.Price = Item.Price;
 		item.CatalogTypeId = Item.CatalogTypeId;
+		item.PictureUri = Item.PictureUri;
 	}
 
 	private async Task ItemUpdate()
@@ -154,12 +149,15 @@ else
 
 		string url = "https://localhost:5001";
 
-		var response = await Http.PostAsync($"{url}/api/images", content);
+		var response = await Http.PostAsync($"{url}/Catalog", content);
+
 
 		if (response.IsSuccessStatusCode)
 		{
 			var uploadedfile = await response.Content.ReadAsStringAsync();
-			imagePath = $"{url}/{uploadedfile}";
+			var file = uploadedfile.Trim('"');
+			imagePath = $"{url}/{file}";
+			item.PictureUri = imagePath;
 			message = "File has been uploaded succesfully";
 		}
 	}

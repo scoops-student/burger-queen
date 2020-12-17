@@ -165,7 +165,7 @@ namespace CatalogAPI.Controllers
                 }
 
                 var newItem = await this.catalogService.CreateTypeAsync(type).ConfigureAwait(false);
-                return this.CreatedAtAction(nameof(GetCatalogTypeById), new {id= newItem.Id}, newItem);
+                return this.CreatedAtAction(nameof(GetCatalogTypeById), new { id = newItem.Id }, newItem);
             }
             catch (ArgumentException)
             {
@@ -273,36 +273,31 @@ namespace CatalogAPI.Controllers
         /// 
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> PostImage([FromForm]IFormFile image)
+        public async Task<IActionResult> PostImage([FromForm] IFormFile image)
         {
-            if(image == null || image.Length == 0)
+            if (image == null || image.Length == 0)
             {
                 return BadRequest("Upload a file!");
             }
-            else
+
+            string fileName = image.FileName;
+            string extension = Path.GetExtension(fileName);
+            string[] allowedExtension = { ".jpg", ".png", ".bmp" };
+
+            if (!allowedExtension.Contains(extension))
             {
-                string fileName = image.FileName;
-                string extension = Path.GetExtension(fileName);
-                string[] allowedExtension = { ".jpg", ".png", ".bmp" };
-
-                if(!allowedExtension.Contains(extension))
-                {
-                    return BadRequest("File is not a valid image!");
-                }
-                else
-                {
-                    string newFileName = $"{Guid.NewGuid()}{extension}";
-                    string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
-
-                    using(var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-
-                    return Ok($"Image/{newFileName}");
-
-                }
+                return BadRequest("File is not a valid image!");
             }
+
+            string newFileName = $"{Guid.NewGuid()}{extension}";
+            string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            return Ok($"Image/{newFileName}");
         }
     }
 }
