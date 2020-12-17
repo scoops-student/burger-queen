@@ -298,7 +298,6 @@ namespace CatalogAPI.Controllers
             }
 
             return Ok($"Image/{newFileName}");
-
         }
     }
 }

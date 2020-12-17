@@ -2,7 +2,6 @@
 @using AdminUiWasm.CatalogApi
 @using Tewr.Blazor.FileReader
 @using System.IO
-
 @using System.Net.Http.Headers
 
 @inject HttpClient Http
@@ -96,7 +95,7 @@ else
 		catalogTypes = await client.GetAllCatalogTypesAsync();
 
 	}
-
+    
 	private void Item()
 	{
 		StateHasChanged();
@@ -141,8 +140,7 @@ else
 			var file = uploadedfile.Trim('"');
 			imagePath = $"{url}/{file}";
 			item.PictureUri = imagePath;
-			message = "File has been uploaded succesfully";
-
+			message = "File has been uploaded succesfully";	
 		}
 	}
 }

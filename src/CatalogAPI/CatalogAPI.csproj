@@ -39,6 +39,7 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\Image\" />
+	  <Folder Include="wwwroot\Image\" />
 	</ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
