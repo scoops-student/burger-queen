@@ -53,6 +53,13 @@ else
 			<InputText id="itemId" @bind-Value="@Id" class="form-control" />
 		</div>
 
+
+
+		<div class="form-group">
+			<label for="picture">Picture</label>
+			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
+		</div>
+
 		<div class="form-group">
 			<label for="picture">Picture</label>
 			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />

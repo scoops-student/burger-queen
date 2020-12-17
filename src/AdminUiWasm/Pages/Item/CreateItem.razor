@@ -20,7 +20,6 @@ else
 	<h3>Create item</h3>
 	<br/>
 	<br/>
-	<br/>
 	<div class="form-group">
 		<label for="picture">Picture</label>
 		<input type="file" id="picture" @ref="inputReference" @onchange="SelectFile" />
@@ -48,6 +47,11 @@ else
 	</div>
 
 	<EditForm Model="@item" OnValidSubmit="Item">
+
+		<div class="form-group">
+			<label for="picture">Picture</label>
+			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
+		</div>
 
 		<div class="form-group">
 			<label for="productName">Product Name</label>
