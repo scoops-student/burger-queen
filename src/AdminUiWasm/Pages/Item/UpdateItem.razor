@@ -6,7 +6,6 @@
 
 @using System.Net.Http.Headers
 
-
 @inject HttpClient Http
 @inject CatalogApi.catalog_apiClient client
 
@@ -53,8 +52,6 @@ else
 			<label for="itemId">Item Id</label>
 			<InputText id="itemId" @bind-Value="@Id" class="form-control" />
 		</div>
-
-
 
 		<div class="form-group">
 			<label for="picture">Picture</label>
