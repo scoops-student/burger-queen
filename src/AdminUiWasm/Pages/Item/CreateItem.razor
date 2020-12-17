@@ -25,7 +25,7 @@ else
 		<label for="picture">Picture</label>
 		<input type="file" id="picture" @ref="inputReference" @onchange="SelectFile" />
 		<br />
-		<button class="btn btn-primary" @onclick="UploadFile">Upload Picture</button>
+		<button class="btn btn-primary" @onclick="UploadFile" bind="item.PictureUri">Upload Picture</button>
 
 		@if (!string.IsNullOrWhiteSpace(message))
 		{
@@ -48,11 +48,6 @@ else
 	</div>
 
 	<EditForm Model="@item" OnValidSubmit="Item">
-
-		<div class="form-group">
-			<label for="picture">Picture</label>
-			<InputFile id="picture" @bind-Value="item.PictureUri" class="form-control" @ref="inputReference" OnChange="SelectFile" />
-		</div>
 
 		<div class="form-group">
 			<label for="productName">Product Name</label>
@@ -101,7 +96,7 @@ else
 		catalogTypes = await client.GetAllCatalogTypesAsync();
 
 	}
-    
+
 	private void Item()
 	{
 		StateHasChanged();
@@ -138,13 +133,16 @@ else
 
 		string url = "https://localhost:5001";
 
-		var response = await Http.PostAsync($"{url}/api/images", content);
+		var response = await Http.PostAsync($"{url}/Catalog", content);
 
 		if (response.IsSuccessStatusCode)
 		{
 			var uploadedfile = await response.Content.ReadAsStringAsync();
-			imagePath = $"{url}/{uploadedfile}";
+			var file = uploadedfile.Trim('"');
+			imagePath = $"{url}/{file}";
+			item.PictureUri = imagePath;
 			message = "File has been uploaded succesfully";
+
 		}
 	}
 }

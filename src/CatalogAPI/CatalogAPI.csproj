@@ -34,7 +34,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\Image\" />
+	  <Content Include="Controllers\CatalogController.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Folder Include="wwwroot\Image\" />
 	</ItemGroup>
 
