@@ -8,6 +8,11 @@ a, .btn-link {
     color: orangered;
 }
 
+.btn-create {
+    width: 10px;
+    height: 10px;
+}
+
 .btn-primary {
     color: white;
     background-color: orangered;
@@ -34,6 +39,12 @@ a, .btn-link {
 
 .validation-message {
     color: red;
+}
+
+.top-menu {
+	justify-content: center;
+	width: 100%;
+	display: flex;
 }
 
 #blazor-error-ui {
