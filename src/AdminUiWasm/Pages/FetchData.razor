@@ -13,39 +13,23 @@
 }
 else
 {
-	<br />
     <h1>Burger Queen</h1>
 
     <p>This is what we have, take a look and enjoy!!</p>
 
-	<table class="table">
-        <thead>
-            <tr>
-	            <th>Type</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h3>Type</h3>
+
+        <ul style="list-style : none">
             @foreach (var type in catalogTypes)
             {
-                <tr>
-	                <td>@type.Type</td>
-                    <td><button type="submit" class="btn btn-primary" @onclick="()=>UpdateType(type.Id)">Update</button></td>
-                    <td><button type="submit" class="btn btn-primary" @onclick="()=>DeleteType(type.Id)">Delete</button></td>
-                    <br />
-                    <br />
+                
+	                <li>@type.Type</li>
+                    <button type="submit" class="btn btn-primary" @onclick="()=>UpdateType(type.Id)">Update</button>
+                    <button type="submit" class="btn btn-primary" @onclick="()=>DeleteType(type.Id)">Delete</button>
                     <br />
 
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-	                        <th>Picture</th>
-	                        <th>Item</th>
-	                        <th>Description</th>
-	                        <th>Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @if (catalogItems == null)
+                        <ul style="list-style : none">                      
+                        @if (catalogItems == null)
                             {
                                 <p><em>Loading...</em></p>
                             }
@@ -55,26 +39,20 @@ else
                                 {
                                     if (item.CatalogTypeId == type.Id)
                                     {
-                                        <tr>
-
-                                            <td><img width="100" src="@item.PictureUri"/> </td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Description</td>
-                                            <td>€ @item.Price</td>
-                                            <td><button type="submit" class="btn btn-primary" @onclick="()=>UpdateItem(item.Id)">Update</button></td>
-                                            <td><button type="submit" class="btn btn-primary" @onclick="()=>DeleteItem(item.Id)">Delete</button></td>
-                                        </tr>
+                                            <img width="100" src="@item.PictureUri"/>
+                                            <li><b>@item.Name</b> </li>
+                                            <li>@item.Description</li>
+                                            <li>€ @item.Price</li>
+                                            <button type="submit" class="btn btn-primary" @onclick="()=>UpdateItem(item.Id)">Update</button>
+                                            <button type="submit" class="btn btn-primary" @onclick="()=>DeleteItem(item.Id)">Delete</button>
                                         <br />
+                                        <br/>
                                     }
                                 }
                             }
-                        </tbody>
-                    </table>
-
-                </tr>
+                    </ul>
             }
-        </tbody>
-    </table>
+        </ul>
 }
 
 @code {
