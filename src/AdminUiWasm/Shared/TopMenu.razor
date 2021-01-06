@@ -1,0 +1,20 @@
+﻿@inject NavigationManager NavigationManager
+<div class="top-menu">
+	<div>
+		<button type="submit" class="btn btn-create" @onclick="CreateType"><img src="icons/baseline_create_black_18dp.png" /> <br /> Create type</button>
+		<button type="submit" class="btn btn-create" @onclick="CreateItem"> <img src="icons/baseline_create_black_18dp.png" /><span class="popover-header"></span> <br />Create Item</button>
+	</div>
+</div>
+
+
+@code {
+	private void CreateType()
+	{
+		NavigationManager.NavigateTo("/CreateType");
+	}
+
+	private void CreateItem()
+	{
+		NavigationManager.NavigateTo("/CreateItem");
+	}
+}
