@@ -32,7 +32,7 @@ namespace CatalogAPI.Infrastructure
             modelBuilder.Entity<CatalogItem>().Property(c => c.Id);
             modelBuilder.Entity<CatalogItem>().Property(c => c.Name).IsRequired();
             modelBuilder.Entity<CatalogItem>().Property(c => c.Description);
-            modelBuilder.Entity<CatalogItem>().Property(c => c.Price);
+            modelBuilder.Entity<CatalogItem>().Property(c => c.Price).HasColumnType("double");
             modelBuilder.Entity<CatalogItem>().Property(c => c.PictureUri);
             modelBuilder.Entity<CatalogItem>().Property(c => c.CatalogTypeId);
         }
