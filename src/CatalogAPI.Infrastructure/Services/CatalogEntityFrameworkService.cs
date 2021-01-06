@@ -145,5 +145,12 @@ namespace CatalogAPI.Infrastructure.Services
 
             return items;
         }
+
+        public async Task<CatalogItem> PostImage(CatalogItem item)
+        {
+            var Image = this.catalogContext.CatalogItems.Find(item.PictureUri);
+            await this.catalogContext.SaveChangesAsync().ConfigureAwait(false);
+            return Image;
+        }
     }
 }

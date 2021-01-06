@@ -82,5 +82,10 @@ namespace CatalogAPI.Infrastructure.Services
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<CatalogItem> PostImage(CatalogItem item)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

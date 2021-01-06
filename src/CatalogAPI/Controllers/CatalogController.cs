@@ -272,32 +272,41 @@ namespace CatalogAPI.Controllers
         /// <summary>
         /// 
         /// </summary>
-        [HttpPost]
+        [HttpPost ("by-item", Name = "PostImage")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostImage([FromForm] IFormFile image)
         {
-            if (image == null || image.Length == 0)
+            try
             {
-                return BadRequest("Upload a file!");
+                if (image == null || image.Length == 0)
+                {
+                    return BadRequest("Upload a file!");
+                }
+
+                string fileName = image.FileName;
+                string extension = Path.GetExtension(fileName);
+                string[] allowedExtension = { ".jpg", ".png", ".bmp" };
+
+                if (!allowedExtension.Contains(extension))
+                {
+                    return BadRequest("File is not a valid image!");
+                }
+
+                string newFileName = $"{Guid.NewGuid()}{extension}";
+                string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+
+                return Ok($"Image/{newFileName}");
             }
-
-            string fileName = image.FileName;
-            string extension = Path.GetExtension(fileName);
-            string[] allowedExtension = { ".jpg", ".png", ".bmp" };
-
-            if (!allowedExtension.Contains(extension))
+            catch (Exception)
             {
-                return BadRequest("File is not a valid image!");
+                return this.BadRequest();
             }
-
-            string newFileName = $"{Guid.NewGuid()}{extension}";
-            string filePath = Path.Combine(this.environment.ContentRootPath, "wwwroot", "Image", newFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            {
-                await image.CopyToAsync(fileStream);
-            }
-
-            return Ok($"Image/{newFileName}");
         }
     }
 }
